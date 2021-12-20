@@ -4,7 +4,7 @@ const { sendTransaction, getWeb3 } = require('./transaction');
 
 const liquidationTrigger = (address, loanId) => {
     const web3 = getWeb3();
-    oracleOpenContract = new web3.eth.Contract(
+    let oracleOpenContract = new web3.eth.Contract(
         OpenOracleContract.abi,
         diamondAddress
     );

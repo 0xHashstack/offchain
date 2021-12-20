@@ -5,7 +5,7 @@ const getWeb3 = () => {
     return new Web3(rpcURLs["infuraRopsten"]);
 }
 
-estimateGas = (contractObject, method, options, params) => {
+const estimateGas = (contractObject, method, options, params) => {
     return contractObject.methods[method](...params).estimateGas(options);
 }
 
