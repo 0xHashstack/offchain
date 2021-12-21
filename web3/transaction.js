@@ -22,7 +22,7 @@ const sendTransaction = async (diamondAddress, contract, method, ...params) => {
     let tx = contract.methods[method](...params);
 
     try {
-        let gas = await estimateGas(contract, method, {from: address}, params);
+        let gas = await estimateGas(contract, method, { from: address }, params);
         let gasPrice = await web3.eth.getGasPrice();
         let nonce = await web3.eth.getTransactionCount(address);
         let data = tx.encodeABI();

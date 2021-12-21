@@ -9,7 +9,11 @@ const listenToEvents = (app) => {
         diamondAddress
     );
     loanContract.events.NewLoan({}, (error, event) => {
-        console.log(event.returnValues)
+        if (!error) {
+            console.log(event.returnValues)
+        } else {
+            console.error(error);
+        }
     })
     return app
 }
