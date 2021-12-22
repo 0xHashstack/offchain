@@ -36,3 +36,30 @@ exports.getLoanById = async (req, res, next) => {
         })
     }
 }
+
+exports.addLoan = async (loanDetails) => {
+    try {
+        const loanAdded = await Loan.create(loanDetails);
+        return res.status(201).json({
+            success: true,
+            data: loanAdded
+        })
+    } catch (error) {
+        console.log(req);
+
+        if(error.name === 'ValidationError') {
+            const messages = Object.values(error.errors).map(val => val.message);
+            
+            return res.status(400).json({
+                success: false,
+                error: messages
+            })
+        } else {
+            return res.status(500).json({
+                success: false,
+                error: `Error Adding Loan: ${error.message}`
+            })
+        }
+    }
+
+}

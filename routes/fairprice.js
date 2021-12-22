@@ -1,4 +1,5 @@
 const fetch = require("node-fetch");
+const { calculateMean } = require("../utils/maths");
 
 const fetchFairPrice = async (req, res) => {
     try {
@@ -32,10 +33,27 @@ const fetchPairs = async (req, res) => {
     }
 }
 
-
+const fetchOrderBookDepth = async (req, res) => {
+    try {
+        let response = await fetch(`https://api.binance.com/api/v3/depth?symbol=${req.query.symbol}&limit=${req.query.limit}`)
+        let data = await response.json();
+        let askMean = calculateMean(data["asks"]);
+        let bidMean = calculateMean(data["bids"]);
+        data = {
+            askMeanPrice: askMean["priceMean"],
+            askMeanQuantity: askMean["quantityMean"],
+            bidsMeanPrice: bidMean["priceMean"],
+            bidsMeanQuantity: bidMean["quantityMean"]
+        }
+        return res.status(200).send(data);
+    } catch(err) {
+        return res.status(500).send(err);
+    }
+}
 
 module.exports = {
     fetchFairPrice,
     fetchTokenPrice,
     fetchPairs,
+    fetchOrderBookDepth
 }
