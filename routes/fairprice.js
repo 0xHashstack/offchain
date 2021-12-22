@@ -33,6 +33,7 @@ const fetchPairs = async (req, res) => {
     }
 }
 
+//http://localhost:3000/priceDepth?symbol=ETHBUSD&limit=5
 const fetchOrderBookDepth = async (req, res) => {
     try {
         let response = await fetch(`https://api.binance.com/api/v3/depth?symbol=${req.query.symbol}&limit=${req.query.limit}`)
