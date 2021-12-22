@@ -11,6 +11,16 @@ const liquidationTrigger = (address, loanId) => {
     return sendTransaction(diamondAddress, oracleOpenContract, "liquidationTrigger", address, loanId);
 }
 
+const seedFairPrice = (address, tokenPrice) => {
+    const web3 = getWeb3();
+    let oracleOpenContract = new web3.eth.Contract(
+        OpenOracleContract.abi,
+        diamondAddress
+    );
+    return sendTransaction(diamondAddress, oracleOpenContract, "seedFairPrice", address, tokenPrice);
+}
+
 module.exports = {
-    liquidationTrigger
+    liquidationTrigger,
+    seedFairPrice
 }

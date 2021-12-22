@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { fetchFairPrice, fetchTokenPrice, fetchPairs, fetchOrderBookDepth } = require("./fairprice");
+const { fetchFairPrice, seedTokenPriceToDB, getTokenPrice, fetchPairs, fetchOrderBookDepth, seedTokenPriceToContract } = require("./fairprice");
 const { triggerLiquidation } = require("./oracleopen");
 const { createWallet } = require("./wallet");
 
@@ -9,7 +9,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/fairPrice', fetchFairPrice);
-router.get('/tokenPrice', fetchTokenPrice);
+router.get('/tokenPrice', seedTokenPriceToDB);
+router.get('/seedTokenPrice', seedTokenPriceToContract);
+
+router.get('/getTokenPrice', getTokenPrice)
 router.get('/pairs', fetchPairs);
 
 router.get('/createWallet', createWallet);

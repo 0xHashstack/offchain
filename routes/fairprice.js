@@ -1,5 +1,7 @@
 const fetch = require("node-fetch");
+const { addFairPrice, getFairPriceBySymbol, getFairPriceFromDB } = require("../controllers/fairprice-controller");
 const { calculateMean } = require("../utils/maths");
+const { seedFairPrice } = require('../web3/oracleopen');
 
 const fetchFairPrice = async (req, res) => {
     try {
@@ -11,13 +13,36 @@ const fetchFairPrice = async (req, res) => {
     }
 }
 //http://localhost:3000/tokenPrice?token=0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82
-const fetchTokenPrice = async (req, res) => {
+const seedTokenPriceToDB = async (req, res) => {
     try {
         let response = await fetch(`https://api.pancakeswap.info/api/v2/tokens/${req.query.token}`)
         let data = await response.json();
-        return res.status(200).send(data);
+        await addFairPrice(req, res, {
+            name: data["data"].name,
+            symbol: data["data"].symbol,
+            price: data["data"].price,
+            price_BNB: data["data"].price_BNB,
+            address: req.query.token,
+            timestamp: new Date().getTime()
+        })
     } catch(err) {
-        return res.status(500).send(err);
+        console.log(err)
+        return res.status(500).send(err.message);
+    }
+}
+
+const getTokenPrice = async (req, res) => {
+    await getFairPriceBySymbol(req, res)
+}
+
+const seedTokenPriceToContract = async (req, res) => {
+    try {
+        let tokenPrice = await getFairPriceFromDB(req.query.symbol);
+        let latestPrice = tokenPrice[tokenPrice.length - 1];
+        seedFairPrice(latestPrice["address"], latestPrice["price"]);
+    } catch(err) {
+        console.log(err)
+        return res.status(500).send(err.message);
     }
 }
 
@@ -54,7 +79,9 @@ const fetchOrderBookDepth = async (req, res) => {
 
 module.exports = {
     fetchFairPrice,
-    fetchTokenPrice,
+    seedTokenPriceToDB,
     fetchPairs,
-    fetchOrderBookDepth
+    fetchOrderBookDepth,
+    getTokenPrice,
+    seedTokenPriceToContract
 }

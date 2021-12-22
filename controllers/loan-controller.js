@@ -61,5 +61,4 @@ exports.addLoan = async (loanDetails) => {
             })
         }
     }
-
 }
