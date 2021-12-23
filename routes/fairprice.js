@@ -5,18 +5,10 @@ const { seedFairPrice } = require('../web3/oracleopen');
 
 const fetchFairPriceAPI = async (req, res) => {
     try {
-        const data = await fetchPairs(req, res);
         let amount = req.query.amount;
-        let delta = data["quote_volume"] - Number(amount);
-        let tradePrice = data["k_value"]/(delta*data["y"]);
-        
-        // Add pancake swap txn price (0.25%)
-        let fairPrice = tradePrice + (tradePrice * 0.25/100);
-
-        return res.status(200).send({
-            "tradePrice": tradePrice,
-            "fairPrice": fairPrice
-        })
+        let market = req.query.market;
+        let response = await calculateFairPrice(market, amount);
+        return res.status(200).send(response);
     } catch(err) {
         return res.status(500).send(err);
     }
@@ -58,8 +50,8 @@ const seedTokenPriceToContract = async (req, res) => {
 //http://localhost:3000/pairs?token1=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c&token2=0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56
 const fetchPairs = async (req, res) => {
     try {
-        let data = await getFairPrice;
-        return data;
+        let data = await getFairPriceData(req.query.token1, req.query.token2);
+        return res.status(200).send(data);
     } catch(err) {
         return res.status(500).send(err);
     }
@@ -84,12 +76,24 @@ const fetchOrderBookDepth = async (req, res) => {
     }
 }
 
-const fetchFairPrice = (quoteToken, amount) => {
+const calculateFairPrice = (market, amount) => {
     //base token
-    let market = "0xe9e7cea3dedca5984780bafc599bd69add087d56";
+    let baseToken = "0xe9e7cea3dedca5984780bafc599bd69add087d56";
+
+    try {
+        let fairPriceData = await getFairPriceData(market, baseToken);
+        let delta = fairPriceData["quote_volume"] - Number(amount);
+        let tradePrice = fairPriceData["k_value"]/(delta*fairPriceData["y"]);
+    
+        // Add pancake swap txn price (0.25%)
+        let fairPrice = tradePrice + (tradePrice * 0.25/100);
+        return fairPrice;
+    } catch(err) {
+        throw err
+    }
 }
 
-const getFairPrice = async (token1, token2) => {
+const getFairPriceData = async (token1, token2) => {
     try {
         let response = await fetch(`https://api.pancakeswap.info/api/v2/pairs`)
         let data = await response.json();
@@ -101,7 +105,6 @@ const getFairPrice = async (token1, token2) => {
         data["k_value"] = x * y; // 1 because of USDT
         data["x"] = x;
         data["y"] = y;
-
         return data;
     } catch(err) {
         throw err;
@@ -110,7 +113,7 @@ const getFairPrice = async (token1, token2) => {
 
 module.exports = {
     fetchFairPriceAPI,
-    fetchFairPrice,
+    calculateFairPrice,
     seedTokenPriceToDB,
     fetchPairs,
     fetchOrderBookDepth,
