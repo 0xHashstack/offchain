@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { fetchFairPrice, seedTokenPriceToDB, getTokenPrice, fetchPairs, fetchOrderBookDepth, seedTokenPriceToContract } = require("./fairprice");
+const { fetchFairPriceAPI, seedTokenPriceToDB, getTokenPrice, fetchPairs, fetchOrderBookDepth, seedTokenPriceToContract } = require("./fairprice");
 const { triggerLiquidation } = require("./oracleopen");
 const { createWallet } = require("./wallet");
 
@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     res.status(200).send('Welcome to hashstack finance!');
 });
 
-router.get('/fairPrice', fetchFairPrice);
+router.get('/fairPrice', fetchFairPriceAPI);
 router.get('/tokenPrice', seedTokenPriceToDB);
 router.get('/seedTokenPrice', seedTokenPriceToContract);
 

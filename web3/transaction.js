@@ -38,11 +38,22 @@ const sendTransaction = async (diamondAddress, contract, method, ...params) => {
         const receipt = await web3.eth.sendTransaction(txData);
         return receipt.transactionHash
     } catch (err) {
-        throw new Error(err)
+        throw err
+    }
+}
+
+const getValue = async (contract, method, ...params) => {
+    const web3 = getWeb3();
+    try {
+        let callData = await contract.methods[method](...params).call();
+        return call
+    } catch (err) {
+        throw err
     }
 }
 
 module.exports = {
     sendTransaction,
-    getWeb3
+    getWeb3,
+    getValue
 }

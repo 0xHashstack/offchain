@@ -3,7 +3,7 @@ const { addFairPrice, getFairPriceBySymbol, getFairPriceFromDB } = require("../c
 const { calculateMean } = require("../utils/maths");
 const { seedFairPrice } = require('../web3/oracleopen');
 
-const fetchFairPrice = async (req, res) => {
+const fetchFairPriceAPI = async (req, res) => {
     try {
         const data = await fetchPairs(req, res);
         let amount = req.query.amount;
@@ -58,17 +58,7 @@ const seedTokenPriceToContract = async (req, res) => {
 //http://localhost:3000/pairs?token1=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c&token2=0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56
 const fetchPairs = async (req, res) => {
     try {
-        let response = await fetch(`https://api.pancakeswap.info/api/v2/pairs`)
-        let data = await response.json();
-        data = data.data[`${req.query.token1}_${req.query.token2}`];
-
-        // For calculation refer: https://research.paradigm.xyz/amm-price-impact
-        let x = (Number(data["price"]) * Number(data["quote_volume"]));
-        let y = (Number(data["base_volume"]) * 1)
-        data["k_value"] = x * y; // 1 because of USDT
-        data["x"] = x;
-        data["y"] = y;
-
+        let data = await getFairPrice;
         return data;
     } catch(err) {
         return res.status(500).send(err);
@@ -94,7 +84,32 @@ const fetchOrderBookDepth = async (req, res) => {
     }
 }
 
+const fetchFairPrice = (quoteToken, amount) => {
+    //base token
+    let market = "0xe9e7cea3dedca5984780bafc599bd69add087d56";
+}
+
+const getFairPrice = async (token1, token2) => {
+    try {
+        let response = await fetch(`https://api.pancakeswap.info/api/v2/pairs`)
+        let data = await response.json();
+        data = data.data[`${token1}_${token2}`];
+
+        // For calculation refer: https://research.paradigm.xyz/amm-price-impact
+        let x = (Number(data["price"]) * Number(data["quote_volume"]));
+        let y = (Number(data["base_volume"]) * 1)
+        data["k_value"] = x * y; // 1 because of USDT
+        data["x"] = x;
+        data["y"] = y;
+
+        return data;
+    } catch(err) {
+        throw err;
+    }
+}
+
 module.exports = {
+    fetchFairPriceAPI,
     fetchFairPrice,
     seedTokenPriceToDB,
     fetchPairs,
