@@ -5,9 +5,18 @@ const { seedFairPrice } = require('../web3/oracleopen');
 
 const fetchFairPrice = async (req, res) => {
     try {
-        let response = await fetch("https://api.pancakeswap.info/api/v2/tokens")
-        let data = await response.json();
-        return res.status(200).send(data);
+        const data = await fetchPairs(req, res);
+        let amount = req.query.amount;
+        let delta = data["quote_volume"] - Number(amount);
+        let tradePrice = data["k_value"]/(delta*data["y"]);
+        
+        // Add pancake swap txn price (0.25%)
+        let fairPrice = tradePrice + (tradePrice * 0.25/100);
+
+        return res.status(200).send({
+            "tradePrice": tradePrice,
+            "fairPrice": fairPrice
+        })
     } catch(err) {
         return res.status(500).send(err);
     }
@@ -51,8 +60,16 @@ const fetchPairs = async (req, res) => {
     try {
         let response = await fetch(`https://api.pancakeswap.info/api/v2/pairs`)
         let data = await response.json();
-        data = data.data[`${req.query.token1}_${req.query.token2}`]
-        return res.status(200).send(data);
+        data = data.data[`${req.query.token1}_${req.query.token2}`];
+
+        // For calculation refer: https://research.paradigm.xyz/amm-price-impact
+        let x = (Number(data["price"]) * Number(data["quote_volume"]));
+        let y = (Number(data["base_volume"]) * 1)
+        data["k_value"] = x * y; // 1 because of USDT
+        data["x"] = x;
+        data["y"] = y;
+
+        return data;
     } catch(err) {
         return res.status(500).send(err);
     }
