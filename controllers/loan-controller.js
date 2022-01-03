@@ -1,6 +1,6 @@
 const Loan = require('../models/Loan');
 
-exports.getLoan = async (req, res, next) => {
+exports.getLoanAPI = async (req, res, next) => {
     try {
         const loan = await Loan.find();
 
@@ -13,6 +13,15 @@ exports.getLoan = async (req, res, next) => {
             success: false,
             error: `Error Getting Loan: ${error.message}`
         })
+    }
+}
+
+exports.getLoan = async () => {
+    try {
+        const loan = await Loan.find();
+        return loan;
+    } catch (error) {
+        throw error;
     }
 }
 

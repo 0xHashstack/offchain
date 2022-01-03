@@ -1,4 +1,5 @@
 const express = require('express');
+const { addNewAccount, whiteListAddedAccount } = require('./account');
 const router = express.Router();
 const { fetchFairPriceAPI, seedTokenPriceToDB, getTokenPrice, fetchPairs, fetchOrderBookDepth, seedTokenPriceToContract } = require("./fairprice");
 const { triggerLiquidation } = require("./oracleopen");
@@ -16,6 +17,8 @@ router.get('/getTokenPrice', getTokenPrice)
 router.get('/pairs', fetchPairs);
 
 router.get('/createWallet', createWallet);
+router.post('/addAccount', addNewAccount);
+router.post('/whiteListAccount', whiteListAddedAccount)
 
 router.post('/triggerLiquidation', triggerLiquidation);
 

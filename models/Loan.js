@@ -1,15 +1,27 @@
 const mongoose = require('mongoose');
 
 const LoanSchema = new mongoose.Schema({
+    id: {
+        type: Number,
+        required: true
+    },
     account: {
         type: String,
         required: true
     },
-    market: {
+    loanMarket: {
         type: String,
         required: true
     },
-    amount: {
+    loanAmount: {
+        type: Number,
+        required: true
+    },
+    collateralMarket: {
+        type: String,
+        required: true,
+    },
+    collateralAmount: {
         type: Number,
         required: true
     },
