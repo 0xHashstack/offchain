@@ -17,6 +17,14 @@ const LoanSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    cdr: {
+        type: Number,
+        required: true
+    },
+    debtCategory: {
+        type: Number,
+        required: true
+    },
     timestamp: {
         type: Date,
         required: true

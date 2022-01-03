@@ -26,7 +26,15 @@ const NewLoanEvent = (loanContract) => {
     loanContract.events.NewLoan({}, (error, event) => {
         if (!error) {
             console.log(event.returnValues)
-            addLoan(event.returnValues);
+            let loanDetails = event.returnValues;
+            if (Number(loanDetails.cdr) >= 1) {
+                loanDetails["debtCategory"] = 1;
+            } else if (Number(loanDetails.cdr) >= 0.5 && Number(loanDetails.cdr) < 1) {
+                loanDetails["debtCategory"] = 2;
+            } else {
+                loanDetails["debtCategory"] = 3;
+            }
+            addLoan(loanDetails);
         } else {
             console.error(error);
         }
