@@ -26,11 +26,11 @@ app.use('/', require('./routes/index.js'));
 app = listenToEvents(app);
 
 cron.schedule('* * * * * *', async () => {
-  console.log("Checking if any loan has to be liquidated")
+  // console.debug("Checking if any loan has to be liquidated")
   await checkIfAnyLoanHasToBeLiquidated()
 })
 
-cron.schedule('* * */6 * *', async () => {
+cron.schedule('0 */6 * * *', async () => {
   console.log("Fetching data from google sheets every 6 hours.")
 })
 

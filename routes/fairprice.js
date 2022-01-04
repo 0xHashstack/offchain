@@ -76,10 +76,7 @@ const fetchOrderBookDepth = async (req, res) => {
     }
 }
 
-const calculateFairPrice = async (market, amount) => {
-    //base token
-    let baseToken = "0xe9e7cea3dedca5984780bafc599bd69add087d56";
-
+const calculateFairPrice = async (market, amount, baseToken = "0xe9e7cea3dedca5984780bafc599bd69add087d56") => {
     try {
         let fairPriceData = await getFairPriceData(market, baseToken);
         let delta = fairPriceData["quote_volume"] - Number(amount);

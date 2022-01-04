@@ -25,9 +25,9 @@ exports.getLoan = async () => {
     }
 }
 
-exports.getLoanById = async (req, res, next) => {
+exports.getLoanByIdAPI = async (req, res, next) => {
     try {
-        const loan = await Loan.findById(req.params.id);
+        const loan = await Loan.findOne({id: req.params.id});
         if (!loan) {
             return res.status(404).json( {
                 success: false,
@@ -43,6 +43,28 @@ exports.getLoanById = async (req, res, next) => {
             success: false,
             error: `Error Getting Loan ${req.params.id}: ${error.message}`
         })
+    }
+}
+
+exports.getLoanById = async (loanId) => {
+    try {
+        const loan = await Loan.findOne({id: loanId});
+        if (!loan) {
+            console.log(`No loan with id: ${loanId} found!`)
+            return;
+        }
+        return loan;
+    } catch (error) {
+        throw error;
+    }
+}
+
+exports.updateLoanAmount = async (loanId, loanAmount) => {
+    try {
+        const loan = await Loan.findOneAndUpdate({id: loanId}, {loanAmount}, {new: true});
+        console.log("loan updated with new price!", loan);
+    } catch(error) {
+        throw error;
     }
 }
 

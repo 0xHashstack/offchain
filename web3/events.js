@@ -1,7 +1,7 @@
 const { diamondAddress } = require('../constants/web3');
 const Diamond = require('../blockchain/abis/LibDiamond.json')
 const { getWeb3 } = require("./transaction");
-const { addLoan } = require('../controllers/loan-controller');
+const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-controller');
 const { seedFairPrice } = require('./oracleopen');
 const { calculateFairPrice } = require('../routes/fairprice');
 
@@ -41,19 +41,17 @@ const NewLoanEvent = (loanContract) => {
 // Check if adding is same or we need to do fair price calculation here itself
 const SwapLoanEvent = (loanContract) => {
     console.log("Listening to SwapLoan event")
-    loanContract.events.MarketSwapped({}, (error, event) => {
+    loanContract.events.MarketSwapped({}, async (error, event) => {
         if (!error) {
             console.log(event.returnValues)
-            let loanDetails = event.returnValues;
-            let cdr = Number(loanDetails.collateralAmount) / Number(loanDetails.loanAmount);
-            if(cdr >= 1) {
-                loanDetails["debtCategory"] = 1;
-            } else if (cdr >= 0.5 && cdr < 1) {
-                loanDetails["debtCategory"] = 2;
-            } else if (cdr >= 0.333 && cdr < 0.5) {
-                loanDetails["debtCategory"] = 3;
+            let loanId = event.returnValues.id;
+            try {
+                let loan = await getLoanById(loanId);
+                let fairPrice = await calculateFairPrice(event.returnValues.marketTo, loan.loanAmount, event.returnValues.marketFrom);
+                await updateLoanAmount(loanId, fairPrice);
+            } catch(error) {
+                console.error(error);
             }
-            addLoan(loanDetails);
         } else {
             console.error(error);
         }
