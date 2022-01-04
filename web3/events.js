@@ -1,6 +1,4 @@
 const { diamondAddress } = require('../constants/web3');
-const Loan = require('../blockchain/abis/Loan1.json');
-const OracleOpen = require('../blockchain/abis/OracleOpen.json');
 const Diamond = require('../blockchain/abis/LibDiamond.json')
 const { getWeb3 } = require("./transaction");
 const { addLoan } = require('../controllers/loan-controller');
@@ -9,21 +7,13 @@ const { calculateFairPrice } = require('../routes/fairprice');
 
 const listenToEvents = (app) => {
     const web3 = getWeb3();
-    let loanContract = new web3.eth.Contract(
-        Loan,
-        diamondAddress
-    );
-    let oracleOpenContract = new web3.eth.Contract(
-        OracleOpen.abi,
-        diamondAddress
-    )
     let diamondContract = new web3.eth.Contract(
         Diamond,
         diamondAddress
     )
-    NewLoanEvent(loanContract);
+    NewLoanEvent(diamondContract);
     SwapLoanEvent(diamondContract);
-    FairPriceCallEvent(oracleOpenContract);
+    FairPriceCallEvent(diamondContract);
     return app
 }
 
@@ -71,6 +61,7 @@ const SwapLoanEvent = (loanContract) => {
 }
 
 const FairPriceCallEvent = (oracleOpenContract) => {
+    console.log("Listening to FairPriceCall event")
     oracleOpenContract.events.FairPriceCall({}, async (error, event) => {
         if (!error) {
             console.log(event.returnValues)

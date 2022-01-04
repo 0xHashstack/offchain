@@ -23,11 +23,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_reserve",
+        "name": "_facetAddress",
         "type": "address"
       }
     ],
-    "name": "setReserveAddress",
+    "name": "addFacetAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

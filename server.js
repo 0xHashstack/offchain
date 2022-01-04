@@ -30,5 +30,9 @@ cron.schedule('* * * * * *', async () => {
   await checkIfAnyLoanHasToBeLiquidated()
 })
 
+cron.schedule('* * */6 * *', async () => {
+  console.log("Fetching data from google sheets every 6 hours.")
+})
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));

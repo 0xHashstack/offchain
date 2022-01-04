@@ -1,6 +1,6 @@
 const Accounts = require("../models/Account");
 
-exports.addAccount = async (req, res, next) => {
+exports.addAccountAPI = async (req, res, next) => {
     try {
         const { address, whiteListed } = req.body;
         let accountDetails = {
@@ -28,6 +28,15 @@ exports.addAccount = async (req, res, next) => {
                 error: `Error Adding Account: ${error.message}`
             })
         }
+    }
+}
+
+exports.addAccount = async (accountDetails) => {
+    try {
+        const account = await Accounts.create(accountDetails);
+        return account;
+    } catch(error) {
+        throw error;
     }
 }
 
