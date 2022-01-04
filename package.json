@@ -13,6 +13,7 @@
     "ethereumjs-wallet": "^1.0.2",
     "express": "^4.17.1",
     "mongoose": "^6.1.2",
+    "node-cron": "^3.0.0",
     "node-fetch": "^2.6.6",
     "web3": "^1.6.1"
   }

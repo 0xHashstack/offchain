@@ -28,10 +28,10 @@ const checkIfAnyLoanHasToBeLiquidated = async () => {
     });
 }
 
-const liquidateLoans = () => {
-    setTimeout(checkIfAnyLoanHasToBeLiquidated, 2000);
-}
+// const liquidateLoans = () => {
+//     setTimeout(checkIfAnyLoanHasToBeLiquidated, 1000);
+// }
 
 module.exports = {
-    liquidateLoans
+    checkIfAnyLoanHasToBeLiquidated
 }

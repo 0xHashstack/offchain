@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require('mongoose');
+const cron = require('node-cron');
 const { listenToEvents } = require("./web3/events");
-const { liquidateLoans } = require("./web3/liquidation");
+const { checkIfAnyLoanHasToBeLiquidated } = require("./web3/liquidation");
 
 let app = express();
 
@@ -24,7 +25,10 @@ app.use('/', require('./routes/index.js'));
 
 app = listenToEvents(app);
 
-liquidateLoans()
+cron.schedule('* * * * * *', async () => {
+  console.log("Checking if any loan has to be liquidated")
+  await checkIfAnyLoanHasToBeLiquidated()
+})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
