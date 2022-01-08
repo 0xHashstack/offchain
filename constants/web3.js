@@ -3,7 +3,7 @@ const rpcURLs = {
     "infuraRopsten": "wss://ropsten.infura.io/ws/v3/84787fdf8ce842f0a2c41131de1ef5e9"
 }
 
-const diamondAddress = "0x57cC4E4A5577546b09a84eCA07556f2c89EEe40b";
+const diamondAddress = "0xAA5381caF774a92d38ADD5eb5F4c6e26c3939C62";
 
 const chain = "kovan"
 
