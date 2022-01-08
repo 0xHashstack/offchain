@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cron = require('node-cron');
 const { listenToEvents } = require("./web3/events");
 const { checkIfAnyLoanHasToBeLiquidated } = require("./web3/liquidation");
+require('dotenv').config()
 
 let app = express();
 
