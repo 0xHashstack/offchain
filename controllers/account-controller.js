@@ -58,3 +58,19 @@ exports.whiteListAccount = async (req, res, next) => {
         })
     }
 }
+
+exports.isWhiteListedAccount = async(req, res, next) => {
+    try {
+        const address = req.params.address;
+        let account = await Accounts.findOne({address: address});
+        return res.status(201).json({
+            success: true,
+            isWhiteListed: account.whiteListed
+        })
+    } catch(error) {
+        return res.status(500).json({
+            success: false,
+            error: `Error Getting Account ${req.body.address}: ${error.message}`
+        })
+    }
+}
