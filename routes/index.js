@@ -1,5 +1,6 @@
 const express = require('express');
 const { getDepositsByAccountAPI } = require('../controllers/deposit-controller');
+const { getLiquidationsAPI } = require('../controllers/liquidation-controller');
 const { getLoansByAccountAPI } = require('../controllers/loan-controller');
 const { addNewAccount, whiteListAddedAccount } = require('./account');
 const router = express.Router();
@@ -28,5 +29,6 @@ router.get('/priceDepth', fetchOrderBookDepth)
 
 router.get('/getLoansByAccount', getLoansByAccountAPI);
 router.get('/getDepositsByAccount', getDepositsByAccountAPI);
+router.get('/getLiquidations', getLiquidationsAPI)
 
 module.exports = router;

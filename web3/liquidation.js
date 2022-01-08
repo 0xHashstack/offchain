@@ -1,3 +1,4 @@
+const { addLiquidation } = require('../controllers/liquidation-controller');
 const { getLoan } = require('../controllers/loan-controller');
 const { liquidationTrigger } = require('./oracleopen');
 
@@ -20,6 +21,10 @@ const checkIfAnyLoanHasToBeLiquidated = async () => {
         if (liquidationCallPrice == loan.collateralAmount) {
             try {
                 let tx = await liquidationTrigger(loan.account, loan.id);
+                await addLiquidation({
+                    account: loan.account,
+                    id: loan.id
+                });
                 return tx;
             } catch(error) {
                 throw error;
