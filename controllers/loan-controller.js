@@ -16,6 +16,22 @@ exports.getLoanAPI = async (req, res, next) => {
     }
 }
 
+exports.getLoansByAccountAPI = async (req, res, next) => {
+    try {
+        const loan = await Loan.find({account: req.params.account});
+
+        return res.status(200).json({
+            success: true,
+            data: loan
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: `Error Getting Loan: ${error.message}`
+        })
+    }
+}
+
 exports.getLoan = async () => {
     try {
         const loan = await Loan.find();
@@ -71,25 +87,15 @@ exports.updateLoanAmount = async (loanId, loanAmount) => {
 exports.addLoan = async (loanDetails) => {
     try {
         const loanAdded = await Loan.create(loanDetails);
-        return res.status(201).json({
-            success: true,
-            data: loanAdded
-        })
+        return loanAdded;
     } catch (error) {
         console.log(req);
 
         if(error.name === 'ValidationError') {
             const messages = Object.values(error.errors).map(val => val.message);
-            
-            return res.status(400).json({
-                success: false,
-                error: messages
-            })
+            throw new Error(messages)
         } else {
-            return res.status(500).json({
-                success: false,
-                error: `Error Adding Loan: ${error.message}`
-            })
+            throw error;
         }
     }
 }

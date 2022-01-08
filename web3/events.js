@@ -4,6 +4,7 @@ const { getWeb3 } = require("./transaction");
 const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-controller');
 const { seedFairPrice } = require('./oracleopen');
 const { calculateFairPrice } = require('../routes/fairprice');
+const { addDeposit } = require('../controllers/deposit-controller');
 
 const listenToEvents = (app) => {
     const web3 = getWeb3();
@@ -14,12 +15,25 @@ const listenToEvents = (app) => {
     NewLoanEvent(diamondContract);
     SwapLoanEvent(diamondContract);
     FairPriceCallEvent(diamondContract);
+    NewDepositEvent(diamondContract);
     return app
+}
+
+const NewDepositEvent = (depositContract) => {
+    console.log("Listening to NewDeposit event");
+    depositContract.events.NewDeposit({}, async (error, event) => {
+        if (!error) {
+            console.log(event.returnValues)
+            await addDeposit(event.returnValues)
+        } else {
+            console.error(error);
+        }
+    })
 }
 
 const NewLoanEvent = (loanContract) => {
     console.log("Listening to NewLoan event")
-    loanContract.events.NewLoan({}, (error, event) => {
+    loanContract.events.NewLoan({}, async (error, event) => {
         if (!error) {
             console.log(event.returnValues)
             let loanDetails = event.returnValues;
@@ -31,7 +45,7 @@ const NewLoanEvent = (loanContract) => {
             } else if (cdr >= 0.333 && cdr < 0.5) {
                 loanDetails["debtCategory"] = 3;
             }
-            addLoan(loanDetails);
+            await addLoan(loanDetails);
         } else {
             console.error(error);
         }
