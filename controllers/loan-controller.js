@@ -1,4 +1,4 @@
-const { symbols } = require('../constants/web3');
+const { symbols, commitmentHash } = require('../constants/web3');
 const Loan = require('../models/Loan');
 
 exports.getLoanAPI = async (req, res, next) => {
@@ -20,7 +20,9 @@ exports.getLoanAPI = async (req, res, next) => {
 exports.getLoansByAccountAPI = async (req, res, next) => {
     try {
         let loan = await Loan.find({account: req.params.account});
-        loan["market"] = symbols[loan["market"]];
+        loan["loanMarket"] = symbols[loan["loanMarket"]];
+        loan["collateralMarket"] = symbols[loan["collateralMarket"]];
+        loan["loanCommitment"] = commitmentHash[loan["loanCommitment"]];
         return res.status(200).json({
             success: true,
             data: loan

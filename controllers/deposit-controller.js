@@ -1,4 +1,4 @@
-const { symbols } = require('../constants/web3');
+const { symbols, commitmentHash } = require('../constants/web3');
 const Deposit = require('../models/Deposit');
 
 exports.addDeposit = async (depositDetails) => {
@@ -21,6 +21,7 @@ exports.getDepositsByAccountAPI = async (req, res, next) => {
     try {
         let deposits = await Deposit.find({account: req.params.account});
         deposits["market"] = symbols[deposits["market"]];
+        deposits["commitment"] = commitmentHash[deposits["commitment"]];
         return res.status(200).json({
             success: true,
             data: deposits
