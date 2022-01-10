@@ -1,8 +1,8 @@
 const Web3 = require('web3');
-const { rpcURLs, chain } = require("../constants/web3");
+const { rpcURLs } = require("../constants/web3");
 
 const getWeb3 = () => {
-    return new Web3(rpcURLs["infuraRopsten"]);
+    return new Web3(rpcURLs["binanceTestnet"]);
 }
 
 const estimateGas = (contractObject, method, options, params) => {
@@ -33,7 +33,6 @@ const sendTransaction = async (diamondAddress, contract, method, ...params) => {
             gas,
             gasPrice,
             nonce,
-            chain: chain,
         };
         const receipt = await web3.eth.sendTransaction(txData);
         return receipt.transactionHash
