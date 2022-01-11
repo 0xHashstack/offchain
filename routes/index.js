@@ -23,7 +23,7 @@ router.get('/pairs', fetchPairs);
 router.get('/createWallet', createWallet);
 router.post('/addAccount', addNewAccount);
 router.post('/whiteListAccount', whiteListAddedAccount);
-router.post('/isWhiteListedAccount', isWhiteListedAccount);
+router.get('/isWhiteListedAccount', isWhiteListedAccount);
 
 router.post('/triggerLiquidation', triggerLiquidation);
 
