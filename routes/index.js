@@ -10,7 +10,7 @@ const { triggerLiquidation } = require("./oracleopen");
 const { createWallet } = require("./wallet");
 
 router.get('/', (req, res) => {
-    res.status(200).send('Welcome to hashstack finance! - 1');
+    res.status(200).send('Welcome to hashstack finance! - 2');
 });
 
 router.get('/fairPrice', fetchFairPriceAPI);
