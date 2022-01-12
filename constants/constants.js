@@ -19,12 +19,38 @@ const commitmentHash = {
     "0x636f6d69745f54574f5745454b53000000000000000000000000000000000000": "TWOWEEKS",
     "0x636f6d69745f4f4e454d4f4e5448000000000000000000000000000000000000": "ONEMONTH",
     "0x636f6d69745f54485245454d4f4e544853000000000000000000000000000000": "THREEMONTHS"
-  }
+}
+
+const APYFromHash = {
+    "0x636f6d69745f4e4f4e4500000000000000000000000000000000000000000000": 7.8,
+    "0x636f6d69745f54574f5745454b53000000000000000000000000000000000000": 10,
+    "0x636f6d69745f4f4e454d4f4e5448000000000000000000000000000000000000": 15,
+    "0x636f6d69745f54485245454d4f4e544853000000000000000000000000000000": 18
+}
+
+const APYFromString = {
+    "NONE": 7.8,
+    "TWOWEEKS": 10,
+    "ONEMONTH": 15,
+    "THREEMONTHS": 18
+}
+
+const decimalBasedOnMarket = {
+    "USDT.t": 18,
+    "USDC.t": 18,
+    "BTC.t": 8
+}
+
+const epochLength = 3
 
 module.exports = {
     rpcURLs,
     diamondAddress,
     chain,
     symbols,
-    commitmentHash
+    commitmentHash,
+    APYFromHash,
+    APYFromString,
+    epochLength,
+    decimalBasedOnMarket
 }

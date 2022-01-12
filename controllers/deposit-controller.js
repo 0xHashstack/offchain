@@ -1,5 +1,7 @@
-const { symbols, commitmentHash } = require('../constants/web3');
+const { default: BigNumber } = require('bignumber.js');
+const { symbols, commitmentHash } = require('../constants/constants');
 const Deposit = require('../models/Deposit');
+const { calculateAcquiredYield } = require('../utils/maths');
 
 exports.addDepositAPI = async (req, res, next) => {
     try {
@@ -36,12 +38,25 @@ exports.addDeposit = async (depositDetails) => {
     }
 }
 
+exports.updateAcquiredYield = async (deposit) => {
+    try {
+        await Deposit.findOneAndUpdate({_id: deposit._id}, { acquiredYield: deposit.acquiredYield, lastModified: deposit.lastModified })
+    } catch (error) {
+        throw error;
+    }
+}
+
 exports.getDepositsByAccountAPI = async (req, res, next) => {
     try {
         let deposits = await Deposit.find({account: req.query.account});
-        deposits.forEach(deposit => {
+        deposits.forEach(async (deposit) => {
+            const now = new Date().getTime();
+            let acquiredYield = deposit["acquiredYield"] || 0;
             deposit["market"] = symbols[deposit["market"]];
             deposit["commitment"] = commitmentHash[deposit["commitment"]];
+            deposit["acquiredYield"] = acquiredYield + calculateAcquiredYield(deposit, now);
+            deposit["lastModified"] = now;
+            await this.updateAcquiredYield(deposit);
         });
         return res.status(200).json({
             success: true,

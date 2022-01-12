@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1053.0",
+    "bignumber.js": "^9.0.2",
     "dotenv": "^10.0.0",
     "ethereumjs-wallet": "^1.0.2",
     "express": "^4.17.1",

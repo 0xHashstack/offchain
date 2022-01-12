@@ -1,4 +1,4 @@
-const { diamondAddress } = require('../constants/web3');
+const { diamondAddress } = require('../constants/constants');
 const Diamond = require('../blockchain/abis/LibDiamond.json');
 const Deposit = require('../blockchain/abis/Deposit.json');
 const Loan = require('../blockchain/abis/Loan.json');
