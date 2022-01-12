@@ -1,0 +1,20 @@
+name: deploy
+concurrency: testnet
+
+on:
+  push:
+    branches:    
+      - main
+jobs:
+  deploy-open-offchain:
+    name: deployment
+    runs-on: ubuntu-20.04
+    environment: testnet
+    steps:
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_KEY }}
+          script: sh /home/ubuntu/apps/deploy_open.sh
