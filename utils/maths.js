@@ -1,4 +1,4 @@
-const { APYFromHash, epochLength, APYFromString, decimalBasedOnMarket } = require("../constants/constants");
+const { APYFromHash, epochLength, APYFromString, decimalBasedOnMarket, decimalBasedOnMarketHash } = require("../constants/constants");
 const BigNumber = require('bignumber.js');
 
 exports.calculateMean = (dataArray) => {
@@ -21,7 +21,7 @@ exports.calculateAcquiredYield = (depositDetails, now) => {
     let numberOfEpochs = (now - new Date(lastModified || timestamp).getTime())/(3 * 1000)
     let apy = commitment.startsWith("0x") ? APYFromHash[commitment] : APYFromString[commitment];
     let apyPerEpoch = (apy * epochLength)/(365*24*60*60);
-    let decimal = decimalBasedOnMarket[market];
+    let decimal = market.startsWith("0x") ? decimalBasedOnMarketHash[market] : decimalBasedOnMarket[market];
     let amountInNumber = new BigNumber(amount).shiftedBy(-decimal).toNumber();
     return amountInNumber * numberOfEpochs * apyPerEpoch;
 }

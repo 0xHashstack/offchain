@@ -41,6 +41,12 @@ const decimalBasedOnMarket = {
     "BTC.t": 8
 }
 
+const decimalBasedOnMarketHash = {
+    "0x555344542e740000000000000000000000000000000000000000000000000000": 18,
+    "0x555344432e740000000000000000000000000000000000000000000000000000": 18,
+    "0x4254432e74000000000000000000000000000000000000000000000000000000": 8
+}
+
 const epochLength = 3
 
 module.exports = {
@@ -52,5 +58,6 @@ module.exports = {
     APYFromHash,
     APYFromString,
     epochLength,
-    decimalBasedOnMarket
+    decimalBasedOnMarket,
+    decimalBasedOnMarketHash
 }
