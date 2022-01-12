@@ -6,7 +6,7 @@ const { getWeb3 } = require("./transaction");
 const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-controller');
 const { seedFairPrice } = require('./oracleopen');
 const { calculateFairPrice } = require('../routes/fairprice');
-const { createNewDeposit } = require('../controllers/deposit-controller');
+const { createNewDeposit, addToDeposit } = require('../controllers/deposit-controller');
 
 const listenToEvents = (app) => {
     const web3 = getWeb3();
