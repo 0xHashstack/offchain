@@ -1,5 +1,7 @@
 const { diamondAddress } = require('../constants/web3');
-const Diamond = require('../blockchain/abis/LibDiamond.json')
+const Diamond = require('../blockchain/abis/LibDiamond.json');
+const Deposit = require('../blockchain/abis/Deposit.json');
+const Loan = require('../blockchain/abis/Loan.json');
 const { getWeb3 } = require("./transaction");
 const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-controller');
 const { seedFairPrice } = require('./oracleopen');
@@ -12,10 +14,18 @@ const listenToEvents = (app) => {
         Diamond,
         diamondAddress
     )
-    NewLoanEvent(diamondContract);
+    let loanContract = new web3.eth.Contract(
+        Loan,
+        diamondAddress
+    )
+    let depositContract = new web3.eth.Contract(
+        Deposit,
+        diamondAddress
+    )
+    NewLoanEvent(loanContract);
     SwapLoanEvent(diamondContract);
-    FairPriceCallEvent(diamondContract);
-    NewDepositEvent(diamondContract);
+    FairPriceCallEvent(loanContract);
+    NewDepositEvent(depositContract);
     return app
 }
 
