@@ -1,11 +1,18 @@
+const nr=require('newrelic');
 const express = require("express");
 const mongoose = require('mongoose');
+var cors = require('cors')
 const cron = require('node-cron');
 const { listenToEvents } = require("./web3/events");
 const { checkIfAnyLoanHasToBeLiquidated } = require("./web3/liquidation");
 require('dotenv').config()
 
 let app = express();
+var corsOptions = {
+  origin: 'https://*.hashstack.finance',
+  optionsSuccessStatus: 200 
+}
+app.use(cors(app.use(cors())))
 
 const db = process.env.MONGO_URI;
 
