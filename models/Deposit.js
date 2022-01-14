@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const DepositSchema = new mongoose.Schema({
+    depositId: {
+        type: Number,
+        required: true
+    },
     account: {
         type: String,
         required: true
