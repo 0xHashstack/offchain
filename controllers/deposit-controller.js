@@ -25,6 +25,7 @@ exports.createNewDeposit = async (depositDetails) => {
         if (depositDetails["commmitment"]) {
             depositDetails["commitment"] = depositDetails["commmitment"];
         }
+        depositDetails["lastModified"] = depositDetails["timestamp"];
         const depositAdded = await Deposit.create(depositDetails);
         return depositAdded;
     } catch (error) {
