@@ -1,4 +1,4 @@
-const { diamondAddress } = require('../constants/web3');
+const { diamondAddress } = require('../constants/constants');
 const Diamond = require('../blockchain/abis/LibDiamond.json');
 const Deposit = require('../blockchain/abis/Deposit.json');
 const Loan = require('../blockchain/abis/Loan.json');
@@ -6,7 +6,7 @@ const { getWeb3 } = require("./transaction");
 const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-controller');
 const { seedFairPrice } = require('./oracleopen');
 const { calculateFairPrice } = require('../routes/fairprice');
-const { addDeposit } = require('../controllers/deposit-controller');
+const { createNewDeposit, addToDeposit } = require('../controllers/deposit-controller');
 
 const listenToEvents = (app) => {
     const web3 = getWeb3();
@@ -26,6 +26,7 @@ const listenToEvents = (app) => {
     SwapLoanEvent(diamondContract);
     FairPriceCallEvent(loanContract);
     NewDepositEvent(depositContract);
+    AddToDepositEvent(depositContract);
     return app
 }
 
@@ -34,7 +35,19 @@ const NewDepositEvent = (depositContract) => {
     depositContract.events.NewDeposit({}, async (error, event) => {
         if (!error) {
             console.log(event.returnValues)
-            await addDeposit(event.returnValues)
+            await createNewDeposit(event.returnValues)
+        } else {
+            console.error(error);
+        }
+    })
+}
+
+const AddToDepositEvent = (depositContract) => {
+    console.log("Listening to DepositAdded event");
+    depositContract.events.DepositAdded({}, async (error, event) => {
+        if (!error) {
+            console.log(event.returnValues)
+            await addToDeposit(event.returnValues)
         } else {
             console.error(error);
         }

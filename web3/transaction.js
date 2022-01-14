@@ -1,5 +1,5 @@
 const Web3 = require('web3');
-const { rpcURLs } = require("../constants/web3");
+const { rpcURLs } = require("../constants/constants");
 
 const getWeb3 = () => {
     return new Web3(rpcURLs["binanceTestnet"]);

@@ -1,6 +1,6 @@
 const express = require('express');
 const { isWhiteListedAccount } = require('../controllers/account-controller');
-const { getDepositsByAccountAPI } = require('../controllers/deposit-controller');
+const { getDepositsByAccountAPI, addDepositAPI } = require('../controllers/deposit-controller');
 const { getLiquidationsAPI } = require('../controllers/liquidation-controller');
 const { getLoansByAccountAPI } = require('../controllers/loan-controller');
 const { addNewAccount, whiteListAddedAccount } = require('./account');

@@ -1,4 +1,4 @@
-const { symbols, commitmentHash } = require('../constants/web3');
+const { symbols, commitmentHash } = require('../constants/constants');
 const Loan = require('../models/Loan');
 
 exports.getLoanAPI = async (req, res, next) => {

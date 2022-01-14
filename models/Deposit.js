@@ -10,14 +10,22 @@ const DepositSchema = new mongoose.Schema({
         required: true
     },
     amount: {
-        type: Number,
+        type: String,
         required: true
     },
     commitment: {
         type: String,
         required: true
     },
+    acquiredYield: {
+        type: Number,
+        default: 0
+    },
     timestamp: {
+        type: Date,
+        required: true
+    },
+    lastModified: {
         type: Date,
         required: true
     }

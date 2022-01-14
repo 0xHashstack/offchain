@@ -12,7 +12,7 @@ var corsOptions = {
   origin: 'https://*.hashstack.finance',
   optionsSuccessStatus: 200 
 }
-app.use(cors(app.use(cors())))
+app.use(cors(corsOptions));
 
 const db = process.env.MONGO_URI;
 

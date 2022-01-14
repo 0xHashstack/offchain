@@ -1,4 +1,4 @@
-const { diamondAddress } = require('../constants/web3');
+const { diamondAddress } = require('../constants/constants');
 const OpenOracleContract = require('../blockchain/abis/OracleOpen.json');
 const { sendTransaction, getWeb3, getValue } = require('./transaction');
 
