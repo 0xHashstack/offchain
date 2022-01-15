@@ -26,7 +26,6 @@ jobs:
           aws-region: us-west-1
           instance-ids: ${{ secrets.DEPLOY_INSTANCE_IDS }}
           working-directory: /home/ubuntu/apps
-          # command: touch test.log
           command: /bin/sh ./deploy_open.sh > output.log
 
         # Catch SSM outputs
