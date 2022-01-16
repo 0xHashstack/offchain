@@ -27,6 +27,7 @@ exports.createNewDeposit = async (depositDetails) => {
         }
         depositDetails["lastModified"] = depositDetails["timestamp"];
         const depositAdded = await Deposit.create(depositDetails);
+        console.log(`New deposit ${depositDetails.depositId} created`);
         return depositAdded;
     } catch (error) {
         console.error(error);
@@ -41,13 +42,29 @@ exports.createNewDeposit = async (depositDetails) => {
 
 exports.addToDeposit = async (updatedDepositDetails) => {
     try {
-        let deposit = await Deposit.findOne({_id: updatedDepositDetails._id});
+        let deposit = await Deposit.findOne({depositId: updatedDepositDetails.depositId});
+        if(!deposit) {
+            console.warn("No existing deposit found!");
+            return;
+        }
         const now = new Date().getTime();
         let acquiredYield = deposit["acquiredYield"] || 0;
-        deposit["acquiredYield"] = acquiredYield + calculateAcquiredYield(deposit, now);
-        deposit["lastModified"] = now;
-        deposit["amount"] = updatedDepositDetails["amount"];
-        let depositAdded = await Deposit.updateOne({_id: deposit._id}, deposit);
+        acquiredYield += calculateAcquiredYield(deposit, now);
+        
+        let prevAmount = new BigNumber(deposit["amount"]);
+        let addedAmount = new BigNumber(updatedDepositDetails["amount"]);
+        let totalAmount = prevAmount.plus(addedAmount).toString();
+
+        let depositAdded = await Deposit.updateOne({
+            depositId: updatedDepositDetails.depositId
+        }, {
+            acquiredYield: acquiredYield,
+            lastModified: now,
+            amount: totalAmount,
+            depositId: updatedDepositDetails.depositId
+        });
+        console.log(depositAdded);
+        console.log(`Added amount ${addedAmount} to deposit ${updatedDepositDetails.depositId}`);
         return depositAdded;
     } catch (error) {
         throw error;

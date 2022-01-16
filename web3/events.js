@@ -7,6 +7,7 @@ const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-
 const { seedFairPrice } = require('./oracleopen');
 const { calculateFairPrice } = require('../routes/fairprice');
 const { createNewDeposit, addToDeposit } = require('../controllers/deposit-controller');
+const { default: BigNumber } = require('bignumber.js');
 
 const listenToEvents = (app) => {
     const web3 = getWeb3();
@@ -60,8 +61,8 @@ const NewLoanEvent = (loanContract) => {
         if (!error) {
             console.log(event.returnValues)
             let loanDetails = event.returnValues;
-            let cdr = Number(loanDetails.collateralAmount) / Number(loanDetails.loanAmount);
-            if(cdr >= 1) {
+            let cdr = BigNumber(loanDetails.collateralAmount) / BigNumber(loanDetails.loanAmount);
+            if (cdr >= 1) {
                 loanDetails["debtCategory"] = 1;
             } else if (cdr >= 0.5 && cdr < 1) {
                 loanDetails["debtCategory"] = 2;
@@ -86,7 +87,7 @@ const SwapLoanEvent = (loanContract) => {
                 let loan = await getLoanById(loanId);
                 let fairPrice = await calculateFairPrice(event.returnValues.marketTo, loan.loanAmount, event.returnValues.marketFrom);
                 await updateLoanAmount(loanId, fairPrice);
-            } catch(error) {
+            } catch (error) {
                 console.error(error);
             }
         } else {

@@ -80,7 +80,7 @@ exports.getLoanById = async (loanId) => {
 
 exports.updateLoanAmount = async (loanId, loanAmount) => {
     try {
-        const loan = await Loan.findOneAndUpdate({id: loanId}, {loanAmount}, {new: true});
+        const loan = await Loan.findOneAndUpdate({loanId: loanId}, {loanAmount}, {new: true});
         console.log("loan updated with new price!", loan);
     } catch(error) {
         throw error;
@@ -89,10 +89,11 @@ exports.updateLoanAmount = async (loanId, loanAmount) => {
 
 exports.addLoan = async (loanDetails) => {
     try {
+        loanDetails["timestamp"] = new Date().getTime();
         const loanAdded = await Loan.create(loanDetails);
         return loanAdded;
     } catch (error) {
-        console.log(req);
+        console.error(error);
 
         if(error.name === 'ValidationError') {
             const messages = Object.values(error.errors).map(val => val.message);

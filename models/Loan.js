@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const LoanSchema = new mongoose.Schema({
-    id: {
+    loanId: {
         type: Number,
         required: true
     },
