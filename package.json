@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@newrelic/winston-enricher": "^2.1.0",
     "aws-sdk": "^2.1053.0",
     "bignumber.js": "^9.0.2",
     "cors": "^2.8.5",

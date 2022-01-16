@@ -1,16 +1,18 @@
-const nr=require('newrelic');
+const nr = require('newrelic');
 const express = require("express");
 const mongoose = require('mongoose');
 var cors = require('cors')
 const cron = require('node-cron');
 const { listenToEvents } = require("./web3/events");
 const { checkIfAnyLoanHasToBeLiquidated } = require("./web3/liquidation");
+const logger = require('./utils/logger');
+
 require('dotenv').config()
 
 let app = express();
 var corsOptions = {
   origin: 'https://testnet.hashstack.finance',
-  optionsSuccessStatus: 200 
+  optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions));
 
@@ -38,9 +40,6 @@ cron.schedule('* * * * * *', async () => {
   await checkIfAnyLoanHasToBeLiquidated()
 })
 
-// cron.schedule('0 */6 * * *', async () => {
-//   console.log("Fetching data from google sheets every 6 hours.")
-// })
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));

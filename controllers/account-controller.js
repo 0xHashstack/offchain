@@ -1,4 +1,5 @@
 const Accounts = require("../models/Account");
+const logger = require("../utils/logger");
 
 exports.addAccountAPI = async (req, res, next) => {
     try {
@@ -64,17 +65,20 @@ exports.isWhiteListedAccount = async(req, res, next) => {
         const address = req.query.address;
         let account = await Accounts.findOne({address: address});
         if(account) {
+            logger.log('info','isWhitelistedAccount returns True : %s', address)
             return res.status(201).json({
                 success: true,
                 isWhiteListed: account.whiteListed
             })
         }
+        logger.log('info','isWhitelistedAccount returns False : %s', address)
         return res.status(202).json({
             success: true,
             isWhiteListed: false,
             message: "Account not found" 
         })
     } catch(error) {
+        logger.error('isWhitelistedAccount returns Error : %s', new Error(error))
         return res.status(500).json({
             success: false,
             error: `Error Getting Account ${req.body.address}: ${error.message}`

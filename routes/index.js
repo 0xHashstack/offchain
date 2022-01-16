@@ -8,8 +8,11 @@ const router = express.Router();
 const { fetchFairPriceAPI, seedTokenPriceToDB, getTokenPrice, fetchPairs, fetchOrderBookDepth, seedTokenPriceToContract } = require("./fairprice");
 const { triggerLiquidation } = require("./oracleopen");
 const { createWallet } = require("./wallet");
+const logger = require('../utils/logger');
+
 
 router.get('/', (req, res) => {
+    logger.info("Server sending a All OK")
     res.status(200).send('Welcome to hashstack finance!');
 });
 
