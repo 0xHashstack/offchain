@@ -1,9 +1,11 @@
 const Accounts = require("../models/Account");
 const logger = require("../utils/logger");
+const { CT_WHITELISTING } = require('../constants/constants');
 
 exports.addAccountAPI = async (req, res, next) => {
     try {
-        const { address, whiteListed } = req.body;
+        var { address, whiteListed } = req.body;
+        whiteListed=false;
         let accountDetails = {
             address,
             whiteListed,
@@ -65,10 +67,14 @@ exports.isWhiteListedAccount = async(req, res, next) => {
         const address = req.query.address;
         let account = await Accounts.findOne({address: address});
         if(account) {
-            logger.log('info','isWhitelistedAccount returns True : %s', address)
+            logger.log('info','isWhitelistedAccount returns the Status %s : %s', account.whiteListed, address)
+            // var mflag=true;
+            // if (!account.whiteListed){
+            //     mflag=new Date().getTime()-new Date(account.timestamp).getTime()>CT_WHITELISTING;
+            // }
             return res.status(201).json({
                 success: true,
-                isWhiteListed: account.whiteListed
+                isWhiteListed: (new Date().getTime()-new Date(account.timestamp).getTime()>CT_WHITELISTING) || account.whiteListed
             })
         }
         logger.log('info','isWhitelistedAccount returns False : %s', address)

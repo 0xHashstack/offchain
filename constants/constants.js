@@ -52,6 +52,8 @@ const decimalBasedOnMarketHash = {
 
 const epochLength = 3
 
+const CT_WHITELISTING=259200000
+
 module.exports = {
     rpcURLs,
     diamondAddress,
@@ -62,5 +64,6 @@ module.exports = {
     APYFromString,
     epochLength,
     decimalBasedOnMarket,
-    decimalBasedOnMarketHash
+    decimalBasedOnMarketHash,
+    CT_WHITELISTING
 }
