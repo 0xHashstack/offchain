@@ -4,7 +4,7 @@ const Deposit = require('../blockchain/abis/Deposit.json');
 const Loan = require('../blockchain/abis/Loan.json');
 const { getWeb3 } = require("./transaction");
 const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-controller');
-const { seedFairPrice } = require('./oracleopen');
+const { setFairPrice } = require('./oracleopen');
 const { calculateFairPrice } = require('../routes/fairprice');
 const { createNewDeposit, addToDeposit } = require('../controllers/deposit-controller');
 const { default: BigNumber } = require('bignumber.js');
@@ -103,7 +103,7 @@ const FairPriceCallEvent = (oracleOpenContract) => {
             console.log(event.returnValues)
             let lastRequest = event.returnValues;
             const fairPrice = await calculateFairPrice(lastRequest.market, lastRequest.amount);
-            let tx = await seedFairPrice(lastRequest.requestId, fairPrice, lastRequest.market, lastRequest.amount);
+            let tx = await setFairPrice(lastRequest.requestId, fairPrice, lastRequest.market, lastRequest.amount);
             console.log("Fair Price seeded: ", tx);
         } else {
             console.error(error);

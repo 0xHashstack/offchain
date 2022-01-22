@@ -31,6 +31,6 @@ const getFairPrice = (market) => {
 
 module.exports = {
     liquidationTrigger,
-    seedFairPrice,
+    setFairPrice,
     getFairPrice
 }

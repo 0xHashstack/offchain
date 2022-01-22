@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 const { addFairPrice, getFairPriceBySymbol, getFairPriceFromDB } = require("../controllers/fairprice-controller");
 const { calculateMean } = require("../utils/maths");
-const { seedFairPrice } = require('../web3/oracleopen');
+const { setFairPrice } = require('../web3/oracleopen');
 
 const fetchFairPriceAPI = async (req, res) => {
     try {
@@ -40,7 +40,7 @@ const seedTokenPriceToContract = async (req, res) => {
     try {
         let tokenPrice = await getFairPriceFromDB(req.query.symbol);
         let latestPrice = tokenPrice[tokenPrice.length - 1];
-        seedFairPrice(latestPrice["address"], latestPrice["price"]);
+        setFairPrice(latestPrice["address"], latestPrice["price"]);
     } catch(err) {
         console.log(err)
         return res.status(500).send(err.message);
