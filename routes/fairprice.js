@@ -1,4 +1,3 @@
-const { request } = require("express");
 const fetch = require("node-fetch");
 const { addFairPrice, getLastRequestAPI, getLastRequest } = require("../controllers/fairprice-controller");
 const { calculateMean, NumToBN } = require("../utils/maths");
@@ -40,10 +39,10 @@ const seedTokenPriceToContract = async (req, res) => {
         let fairPrice = await calculateFairPrice(marketAddress, amount, baseToken);
         let fairPriceToSend = NumToBN(fairPrice, decimal);
         let lastRequestId = await getLastRequest(market);
-        console.log(lastRequestId)
+        console.log("Last requestId in the db: ", lastRequestId)
         let requestId = lastRequestId + 1;
         const tx = await setFairPrice(requestId, fairPriceToSend, market, amount);
-        console.log("Fair Price set: ", requestId, tx, fairPrice, market, amount);
+        console.log("Fair Price set: RequestId: ", requestId, "Transaction Hash: ", tx, "FairPrice: ", fairPrice, "Market: ", market, "Amount", amount);
         await addFairPrice(req, res, {
             requestId: requestId,
             market,

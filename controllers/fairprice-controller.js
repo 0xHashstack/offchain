@@ -47,12 +47,15 @@ const getFairPriceFromDB = (market) => {
 
 const getLastRequest = async (market) => {
     try {
-        let data = await FairPrice.find({market: market});
+        let data = await FairPrice.find();
         if(!data) {
             return 0;
         }
         let lastData = data[data.length - 1];
-        return lastData["requestId"];
+        let lastRequestID = lastData["requestId"];
+        if(!lastRequestID) {
+            return 0;
+        }
     } catch(err) {
         throw err;
     }

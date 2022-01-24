@@ -35,6 +35,7 @@ const NewDepositEvent = (depositContract) => {
     console.log("Listening to NewDeposit event");
     depositContract.events.NewDeposit({}, async (error, event) => {
         if (!error) {
+            console.log(event);
             console.log(event.returnValues)
             await createNewDeposit(event.returnValues)
         } else {
@@ -47,6 +48,7 @@ const AddToDepositEvent = (depositContract) => {
     console.log("Listening to DepositAdded event");
     depositContract.events.DepositAdded({}, async (error, event) => {
         if (!error) {
+            console.log(event);
             console.log(event.returnValues)
             await addToDeposit(event.returnValues)
         } else {
