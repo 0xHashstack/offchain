@@ -1,23 +1,23 @@
 const mongoose = require('mongoose');
 
 const FairPriceSchema = new mongoose.Schema({
-    name: {
+    requestId: {
+        type: Number,
+        required: true,
+    },
+    market: {
         type: String,
         required: true
     },
-    symbol: {
-        type: String,
-        required: true
-    },
-    price: {
+    fairPrice: {
         type: Number,
         required: true
     },
-    price_BNB: {
+    amount: {
         type: Number,
         required: true
     },
-    address: {
+    transactionHash: {
         type: String,
         required: true
     },
