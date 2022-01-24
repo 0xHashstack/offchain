@@ -56,6 +56,7 @@ const getLastRequest = async (market) => {
         if(!lastRequestID) {
             return 0;
         }
+        return lastRequestID;
     } catch(err) {
         throw err;
     }

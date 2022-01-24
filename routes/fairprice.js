@@ -37,7 +37,7 @@ const seedTokenPriceToContract = async (req, res) => {
     try {
         const { marketAddress, market, amount, baseToken, decimal } = req.query;
         let fairPrice = await calculateFairPrice(marketAddress, amount, baseToken);
-        let fairPriceToSend = NumToBN(fairPrice, decimal);
+        let fairPriceToSend = NumToBN(fairPrice, Number(decimal));
         let lastRequestId = await getLastRequest(market);
         console.log("Last requestId in the db: ", lastRequestId)
         let requestId = lastRequestId + 1;
