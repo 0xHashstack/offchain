@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/fairPrice', fetchFairPriceAPI);
-router.get('/tokenPrice', seedTokenPriceToDB);
+router.post('/tokenPrice', seedTokenPriceToDB);
 router.get('/seedTokenPrice', seedTokenPriceToContract);
 
 router.get('/getTokenPrice', getTokenPrice)

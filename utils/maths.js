@@ -8,8 +8,8 @@ exports.calculateMean = (dataArray) => {
         priceMean += Number(data[0]);
         quantityMean += Number(data[1]);
     });
-    priceMean = priceMean/dataArray.length;
-    quantityMean = quantityMean/dataArray.length;
+    priceMean = priceMean / dataArray.length;
+    quantityMean = quantityMean / dataArray.length;
     return {
         priceMean,
         quantityMean
@@ -18,12 +18,16 @@ exports.calculateMean = (dataArray) => {
 
 exports.calculateAcquiredYield = (depositDetails, now) => {
     const { amount, commitment, timestamp, market, lastModified } = depositDetails;
-    let numberOfEpochs = (now - new Date(lastModified || timestamp).getTime())/(3 * 1000)
+    let numberOfEpochs = (now - new Date(lastModified || timestamp).getTime()) / (3 * 1000)
     let apy = commitment.startsWith("0x") ? APYFromHash[commitment] : APYFromString[commitment];
-    let apyPerEpoch = (apy * epochLength)/(365*24*60*60);
+    let apyPerEpoch = (apy * epochLength) / (365 * 24 * 60 * 60);
     let decimal = market.startsWith("0x") ? decimalBasedOnMarketHash[market] : decimalBasedOnMarket[market];
     let amountInNumber = new BigNumber(amount).shiftedBy(-decimal).toNumber();
     return amountInNumber * numberOfEpochs * apyPerEpoch;
 }
 
+exports.NumToBN = (value, decimal = 18) => {
+    return new BigNumber(value).shiftedBy(decimal).toString();
+}
+// console.log(NumToBN(10, 18))
 // console.log(calculateAcquiredYield({"_id":"61dee77ae0846926b3f35dae","account":"0xAcfefBF5558Bfd53076575B3b315E379AFb05260","market":"USDC.t","amount":"10000000000000000000","commitment":"TWOWEEKS","timestamp":"2022-01-12T14:36:34.569Z","__v":0}, new Date().getTime()))

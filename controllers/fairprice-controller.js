@@ -2,6 +2,7 @@ const FairPrice = require("../models/FairPrice");
 
 const addFairPrice = async (req, res, fairPriceData) => {
     try {
+        fairPriceData["timestamp"] = new Date().getTime();
         const fairPrice = await FairPrice.create(fairPriceData);
         return res.status(201).json({
             success: true,
@@ -27,7 +28,7 @@ const addFairPrice = async (req, res, fairPriceData) => {
 
 const getFairPriceBySymbol = async (req, res, next) => {
     try {
-        const fairPrice = await getFairPriceFromDB(req.query.symbol);
+        const fairPrice = await getFairPriceFromDB(req.query.market);
         return res.status(200).json({
             success: true,
             data: fairPrice
@@ -40,12 +41,40 @@ const getFairPriceBySymbol = async (req, res, next) => {
     }
 }
 
-const getFairPriceFromDB = (symbol) => {
-    return FairPrice.find({symbol});
+const getFairPriceFromDB = (market) => {
+    return FairPrice.find({market});
+}
+
+const getLastRequest = async (market) => {
+    try {
+        let data = await FairPrice.find();
+        if(!data) {
+            return 0;
+        }
+        let lastData = data[data.length - 1];
+        let lastRequestID = lastData["requestId"];
+        if(!lastRequestID) {
+            return 0;
+        }
+        return lastRequestID;
+    } catch(err) {
+        throw err;
+    }
+}
+
+const getLastRequestAPI = async (req, res, next) => {
+    try {
+        let data = await getLastRequest(req.query.market);
+        return res.status(200).json(data);
+    } catch(err) {
+        return res.status(500).send(err);
+    }
 }
 
 module.exports = {
     addFairPrice,
     getFairPriceBySymbol,
-    getFairPriceFromDB
+    getFairPriceFromDB,
+    getLastRequest,
+    getLastRequestAPI
 }

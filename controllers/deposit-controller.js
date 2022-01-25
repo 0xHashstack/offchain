@@ -81,6 +81,7 @@ exports.updateAcquiredYield = async (deposit) => {
 
 exports.getDepositsByAccountAPI = async (req, res, next) => {
     try {
+        console.log("Requested list of deposits for account: ", req.query.account);
         let deposits = await Deposit.find({ account: req.query.account });
         deposits.forEach(async (deposit) => {
             const now = new Date().getTime();
