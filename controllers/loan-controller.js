@@ -19,13 +19,15 @@ exports.getLoanAPI = async (req, res, next) => {
 
 exports.getLoansByAccountAPI = async (req, res, next) => {
     try {
-        let loan = await Loan.find({account: req.params.account});
-        loan["loanMarket"] = symbols[loan["loanMarket"]];
-        loan["collateralMarket"] = symbols[loan["collateralMarket"]];
-        loan["loanCommitment"] = commitmentHash[loan["loanCommitment"]];
+        let loans = await Loan.find({ account: req.query.account });
+        loans.forEach(async (loan) => {
+            loan["loanMarket"] = symbols[loan["loanMarket"]];
+            loan["collateralMarket"] = symbols[loan["collateralMarket"]];
+            loan["commitment"] = commitmentHash[loan["commitment"]];
+        });
         return res.status(200).json({
             success: true,
-            data: loan
+            data: loans
         })
     } catch (error) {
         return res.status(500).json({
@@ -46,9 +48,9 @@ exports.getLoan = async () => {
 
 exports.getLoanByIdAPI = async (req, res, next) => {
     try {
-        const loan = await Loan.findOne({id: req.params.id});
+        const loan = await Loan.findOne({ id: req.params.id });
         if (!loan) {
-            return res.status(404).json( {
+            return res.status(404).json({
                 success: false,
                 error: 'Loan Not Found'
             })
@@ -67,7 +69,7 @@ exports.getLoanByIdAPI = async (req, res, next) => {
 
 exports.getLoanById = async (loanId) => {
     try {
-        const loan = await Loan.findOne({id: loanId});
+        const loan = await Loan.findOne({ id: loanId });
         if (!loan) {
             console.log(`No loan with id: ${loanId} found!`)
             return;
@@ -80,9 +82,9 @@ exports.getLoanById = async (loanId) => {
 
 exports.updateLoanAmount = async (loanId, loanAmount) => {
     try {
-        const loan = await Loan.findOneAndUpdate({loanId: loanId}, {loanAmount}, {new: true});
+        const loan = await Loan.findOneAndUpdate({ loanId: loanId }, { loanAmount }, { new: true });
         console.log("loan updated with new price!", loan);
-    } catch(error) {
+    } catch (error) {
         throw error;
     }
 }
@@ -91,11 +93,12 @@ exports.addLoan = async (loanDetails) => {
     try {
         loanDetails["timestamp"] = new Date().getTime();
         const loanAdded = await Loan.create(loanDetails);
-        return loanAdded;
+        console.log("Loan Added");
+        console.log(loanAdded);
     } catch (error) {
         console.error(error);
 
-        if(error.name === 'ValidationError') {
+        if (error.name === 'ValidationError') {
             const messages = Object.values(error.errors).map(val => val.message);
             throw new Error(messages)
         } else {

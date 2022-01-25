@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const LoanSchema = new mongoose.Schema({
     loanId: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     account: {
         type: String,
@@ -25,7 +26,7 @@ const LoanSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    loanCommitment: {
+    commitment: {
         type: String,
         required: true
     },

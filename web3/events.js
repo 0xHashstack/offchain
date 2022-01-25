@@ -71,6 +71,8 @@ const NewLoanEvent = (loanContract) => {
             } else if (cdr >= 0.333 && cdr < 0.5) {
                 loanDetails["debtCategory"] = 3;
             }
+            loanDetails["cdr"] = cdr;
+            // loanDetails["loanCommitment"] = loanDetails["commitment";
             await addLoan(loanDetails);
         } else {
             console.error(error);
