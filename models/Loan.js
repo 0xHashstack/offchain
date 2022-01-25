@@ -4,7 +4,6 @@ const LoanSchema = new mongoose.Schema({
     loanId: {
         type: Number,
         required: true,
-        unique: true
     },
     account: {
         type: String,

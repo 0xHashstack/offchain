@@ -48,7 +48,7 @@ exports.getLoan = async () => {
 
 exports.getLoanByIdAPI = async (req, res, next) => {
     try {
-        const loan = await Loan.findOne({ id: req.params.id });
+        const loan = await Loan.findOne({ loanId: req.params.loanId });
         if (!loan) {
             return res.status(404).json({
                 success: false,
