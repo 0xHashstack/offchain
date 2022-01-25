@@ -19,12 +19,25 @@ exports.createNewDepositAPI = async (req, res, next) => {
     }
 }
 
+exports.addToDepositAPI = async (req, res, next) => {
+    try {
+        const depositDetails = req.body;
+        const depositAdded = await this.addToDeposit(depositDetails);
+        return res.status(200).json({
+            success: true,
+            data: depositAdded
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: `Error adding to deposit: ${error.message}`
+        })
+    }
+}
+
 exports.createNewDeposit = async (depositDetails) => {
     try {
         depositDetails["timestamp"] = new Date().getTime();
-        if (depositDetails["commmitment"]) {
-            depositDetails["commitment"] = depositDetails["commmitment"];
-        }
         depositDetails["lastModified"] = depositDetails["timestamp"];
         const depositAdded = await Deposit.create(depositDetails);
         console.log(`New deposit ${depositDetails.depositId} created`);
@@ -103,3 +116,18 @@ exports.getDepositsByAccountAPI = async (req, res, next) => {
         })
     }
 }
+
+// exports.deleteAllDepositsAPI = async (req, res, next) => {
+//     try {
+//         let response = await Deposit.deleteMany({});
+//         return res.status(200).json({
+//             success: true,
+//             data: response
+//         })
+//     } catch(err) {
+//         return res.status(500).json({
+//             success: false,
+//             error: `Error deleting deposits: ${error.message}`
+//         })
+//     }
+// }
