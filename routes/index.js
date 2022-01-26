@@ -2,7 +2,7 @@ const express = require('express');
 const { isWhiteListedAccount } = require('../controllers/account-controller');
 const { getDepositsByAccountAPI, createNewDepositAPI, deleteAllDepositsAPI, addToDepositAPI } = require('../controllers/deposit-controller');
 const { getLiquidationsAPI } = require('../controllers/liquidation-controller');
-const { getLoansByAccountAPI } = require('../controllers/loan-controller');
+const { getLoansByAccountAPI, deleteAllLoans } = require('../controllers/loan-controller');
 const { addNewAccount, whiteListAddedAccount } = require('./account');
 const router = express.Router();
 const { fetchFairPriceAPI, seedTokenPriceToDB, getTokenPrice, fetchPairs, fetchOrderBookDepth, seedTokenPriceToContract } = require("./fairprice");
@@ -39,5 +39,6 @@ router.get('/getLiquidations', getLiquidationsAPI)
 router.post('/createDeposit', createNewDepositAPI)
 router.post('/addToDeposit', addToDepositAPI);
 // router.get('/deleteAllDeposits', deleteAllDepositsAPI);
+// router.get('/deleteAllLoans', deleteAllLoans);
 
 module.exports = router;

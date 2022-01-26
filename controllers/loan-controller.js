@@ -48,7 +48,7 @@ exports.getLoan = async () => {
 
 exports.getLoanByIdAPI = async (req, res, next) => {
     try {
-        const loan = await Loan.findOne({ id: req.params.id });
+        const loan = await Loan.findOne({ loanId: req.params.loanId });
         if (!loan) {
             return res.status(404).json({
                 success: false,
@@ -104,5 +104,20 @@ exports.addLoan = async (loanDetails) => {
         } else {
             throw error;
         }
+    }
+}
+
+exports.deleteAllLoans = async (req, res, next) => {
+    try {
+        let response = await Loan.deleteMany({});
+        return res.status(200).json({
+            success: true,
+            data: response
+        })
+    } catch(err) {
+        return res.status(500).json({
+            success: false,
+            error: `Error deleting loans: ${error.message}`
+        })
     }
 }

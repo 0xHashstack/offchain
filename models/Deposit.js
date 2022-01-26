@@ -4,7 +4,6 @@ const DepositSchema = new mongoose.Schema({
     depositId: {
         type: Number,
         required: true,
-        unique: true
     },
     account: {
         type: String,

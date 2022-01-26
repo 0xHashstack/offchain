@@ -117,17 +117,17 @@ exports.getDepositsByAccountAPI = async (req, res, next) => {
     }
 }
 
-// exports.deleteAllDepositsAPI = async (req, res, next) => {
-//     try {
-//         let response = await Deposit.deleteMany({});
-//         return res.status(200).json({
-//             success: true,
-//             data: response
-//         })
-//     } catch(err) {
-//         return res.status(500).json({
-//             success: false,
-//             error: `Error deleting deposits: ${error.message}`
-//         })
-//     }
-// }
+exports.deleteAllDepositsAPI = async (req, res, next) => {
+    try {
+        let response = await Deposit.deleteMany({});
+        return res.status(200).json({
+            success: true,
+            data: response
+        })
+    } catch(err) {
+        return res.status(500).json({
+            success: false,
+            error: `Error deleting deposits: ${error.message}`
+        })
+    }
+}

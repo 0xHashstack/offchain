@@ -34,12 +34,17 @@ const listenToEvents = (app) => {
 const NewDepositEvent = (depositContract) => {
     console.log("Listening to NewDeposit event");
     depositContract.events.NewDeposit({}, async (error, event) => {
-        if (!error) {
-            console.log(event);
-            console.log(event.returnValues)
-            await createNewDeposit(event.returnValues)
-        } else {
-            console.error(error);
+        try {
+            if (!error) {
+                console.log(event);
+                console.log(event.returnValues)
+                await createNewDeposit(event.returnValues)
+            } else {
+                console.error(error);
+            }
+        }
+        catch (err) {
+            console.error(err);
         }
     })
 }
@@ -47,12 +52,17 @@ const NewDepositEvent = (depositContract) => {
 const AddToDepositEvent = (depositContract) => {
     console.log("Listening to DepositAdded event");
     depositContract.events.DepositAdded({}, async (error, event) => {
-        if (!error) {
-            console.log(event);
-            console.log(event.returnValues)
-            await addToDeposit(event.returnValues)
-        } else {
-            console.error(error);
+        try {
+            if (!error) {
+                console.log(event);
+                console.log(event.returnValues)
+                await addToDeposit(event.returnValues)
+            } else {
+                console.error(error);
+            }
+        }
+        catch (err) {
+            console.error(err);
         }
     })
 }
@@ -60,22 +70,27 @@ const AddToDepositEvent = (depositContract) => {
 const NewLoanEvent = (loanContract) => {
     console.log("Listening to NewLoan event")
     loanContract.events.NewLoan({}, async (error, event) => {
-        if (!error) {
-            console.log(event.returnValues)
-            let loanDetails = event.returnValues;
-            let cdr = BigNumber(loanDetails.collateralAmount) / BigNumber(loanDetails.loanAmount);
-            if (cdr >= 1) {
-                loanDetails["debtCategory"] = 1;
-            } else if (cdr >= 0.5 && cdr < 1) {
-                loanDetails["debtCategory"] = 2;
-            } else if (cdr >= 0.333 && cdr < 0.5) {
-                loanDetails["debtCategory"] = 3;
+        try {
+            if (!error) {
+                console.log(event.returnValues)
+                let loanDetails = event.returnValues;
+                let cdr = BigNumber(loanDetails.collateralAmount) / BigNumber(loanDetails.loanAmount);
+                if (cdr >= 1) {
+                    loanDetails["debtCategory"] = 1;
+                } else if (cdr >= 0.5 && cdr < 1) {
+                    loanDetails["debtCategory"] = 2;
+                } else if (cdr >= 0.333 && cdr < 0.5) {
+                    loanDetails["debtCategory"] = 3;
+                }
+                loanDetails["cdr"] = cdr;
+                // loanDetails["loanCommitment"] = loanDetails["commitment";
+                await addLoan(loanDetails);
+            } else {
+                console.error(error);
             }
-            loanDetails["cdr"] = cdr;
-            // loanDetails["loanCommitment"] = loanDetails["commitment";
-            await addLoan(loanDetails);
-        } else {
-            console.error(error);
+        }
+        catch (err) {
+            console.error(err);
         }
     })
 }
@@ -103,13 +118,18 @@ const SwapLoanEvent = (loanContract) => {
 const FairPriceCallEvent = (oracleOpenContract) => {
     console.log("Listening to FairPriceCall event")
     oracleOpenContract.events.FairPriceCall({}, async (error, event) => {
-        if (!error) {
-            console.log(event.returnValues)
-            let lastRequest = event.returnValues;
-            const fairPrice = await calculateFairPrice(lastRequest.market, lastRequest.amount);
-            let tx = await setFairPrice(lastRequest.requestId, fairPrice, lastRequest.market, lastRequest.amount);
-            console.log("Fair Price seeded: ", tx);
-        } else {
+        try {
+            if (!error) {
+                console.log(event.returnValues)
+                let lastRequest = event.returnValues;
+                const fairPrice = await calculateFairPrice(lastRequest.market, lastRequest.amount);
+                let tx = await setFairPrice(lastRequest.requestId, fairPrice, lastRequest.market, lastRequest.amount);
+                console.log("Fair Price seeded: ", tx);
+            } else {
+                console.error(error);
+            }
+        }
+        catch (error) {
             console.error(error);
         }
     })
