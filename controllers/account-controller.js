@@ -68,14 +68,13 @@ exports.isWhiteListedAccount = async(req, res, next) => {
         let account = await Accounts.findOne({address: address});
         if(account) {
             var mflag=(new Date().getTime()-new Date(account.timestamp).getTime()>CT_WHITELISTING) || account.whiteListed
-            logger.log('info','isWhitelistedAccount returns the Status %s : %s', mflag, address)
-            logger.debug("Hello World %s",address)
+            logger.log('info','isWhitelistedAccount returns the Status from DB %s : %s', mflag, address)
             return res.status(201).json({
                 success: true,
                 isWhiteListed: mflag
             })
         }
-        logger.log('info','isWhitelistedAccount returns False : %s', address)
+        logger.log('info','isWhitelistedAccount returns False Not Found in DB: %s', address)
         return res.status(202).json({
             success: true,
             isWhiteListed: false,
