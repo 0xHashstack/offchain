@@ -5,7 +5,9 @@ var cors = require('cors')
 const cron = require('node-cron');
 const { listenToEvents } = require("./web3/events");
 const { checkIfAnyLoanHasToBeLiquidated } = require("./web3/liquidation");
-const logger = require('./utils/logger');
+const logger = require("./utils/logger")
+const morgan = require('morgan');
+
 
 require('dotenv').config()
 
@@ -15,6 +17,15 @@ var corsOptions = {
   optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions));
+
+const morganMiddleware = morgan("combined", {
+  stream: {
+    write: (msg) => logger.http(msg)
+  }
+});
+
+// apply the middleware
+app.use(morganMiddleware);
 
 const db = process.env.MONGO_URI;
 
@@ -36,10 +47,13 @@ app.use('/', require('./routes/index.js'));
 app = listenToEvents(app);
 
 cron.schedule('* * * * * *', async () => {
-  // console.debug("Checking if any loan has to be liquidated")
   await checkIfAnyLoanHasToBeLiquidated()
 })
 
+console.log = function(d) {
+    logger.log('info','CONSOLE : %s', d)
+    process.stdout.write(d + '\n');
+};
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
