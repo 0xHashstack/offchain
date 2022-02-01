@@ -1,7 +1,7 @@
 const { diamondAddress } = require('../constants/constants');
 const Diamond = require('../blockchain/abis/LibDiamond.json');
 const Deposit = require('../blockchain/abis/Deposit.json');
-const Loan = require('../blockchain/abis/Loan.json');
+const LoanExt = require('../blockchain/abis/LoanExt.json');
 const { getWeb3 } = require("./transaction");
 const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-controller');
 const { setFairPrice } = require('./oracleopen');
@@ -16,7 +16,7 @@ const listenToEvents = (app) => {
         diamondAddress
     )
     let loanContract = new web3.eth.Contract(
-        Loan,
+        LoanExt,
         diamondAddress
     )
     let depositContract = new web3.eth.Contract(
@@ -25,7 +25,7 @@ const listenToEvents = (app) => {
     )
     NewLoanEvent(loanContract);
     SwapLoanEvent(diamondContract);
-    FairPriceCallEvent(loanContract);
+    // FairPriceCallEvent(loanContract);
     NewDepositEvent(depositContract);
     AddToDepositEvent(depositContract);
     return app
@@ -115,25 +115,25 @@ const SwapLoanEvent = (loanContract) => {
     })
 }
 
-const FairPriceCallEvent = (oracleOpenContract) => {
-    console.log("Listening to FairPriceCall event")
-    oracleOpenContract.events.FairPriceCall({}, async (error, event) => {
-        try {
-            if (!error) {
-                console.log(event.returnValues)
-                let lastRequest = event.returnValues;
-                const fairPrice = await calculateFairPrice(lastRequest.market, lastRequest.amount);
-                let tx = await setFairPrice(lastRequest.requestId, fairPrice, lastRequest.market, lastRequest.amount);
-                console.log("Fair Price seeded: ", tx);
-            } else {
-                console.error(error);
-            }
-        }
-        catch (error) {
-            console.error(error);
-        }
-    })
-}
+// const FairPriceCallEvent = (oracleOpenContract) => {
+//     console.log("Listening to FairPriceCall event")
+//     oracleOpenContract.events.FairPriceCall({}, async (error, event) => {
+//         try {
+//             if (!error) {
+//                 console.log(event.returnValues)
+//                 let lastRequest = event.returnValues;
+//                 const fairPrice = await calculateFairPrice(lastRequest.market, lastRequest.amount);
+//                 let tx = await setFairPrice(lastRequest.requestId, fairPrice, lastRequest.market, lastRequest.amount);
+//                 console.log("Fair Price seeded: ", tx);
+//             } else {
+//                 console.error(error);
+//             }
+//         }
+//         catch (error) {
+//             console.error(error);
+//         }
+//     })
+// }
 
 module.exports = {
     listenToEvents

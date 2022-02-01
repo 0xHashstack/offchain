@@ -45,8 +45,8 @@ app.use(express.json());
 app.use('/', require('./routes/index.js'));
 
 app = listenToEvents(app);
-
-cron.schedule('* * * * * *', async () => {
+cron.schedule('* * * * *', async () => {
+  console.log("Checking if any loan has to be liquidated: " + new Date());
   await checkIfAnyLoanHasToBeLiquidated()
 })
 
