@@ -75,39 +75,8 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "loanId",
-          "type": "uint256"
-        }
-      ],
-      "name": "liquidationTrigger",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [],
       "name": "pauseOracle",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "unpauseOracle",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -136,6 +105,13 @@
         }
       ],
       "name": "setFairPrice",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "unpauseOracle",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
