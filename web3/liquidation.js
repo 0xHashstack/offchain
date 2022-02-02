@@ -4,6 +4,7 @@ const { liquidationTrigger } = require('./oracleopen');
 
 const checkIfAnyLoanHasToBeLiquidated = async () => {
     let loanDetails = await getLoan();
+    console.log("All Loans: ", loanDetails);
     loanDetails.forEach(async (loan) => {
         // Calculate liquidation price
         let liquidationPrice;
