@@ -5,8 +5,8 @@ const LiquidationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    id: {
-        type: Number,
+    loanId: {
+        type: String,
         required: true
     },
     timestamp: {
