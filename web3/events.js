@@ -4,7 +4,6 @@ const Deposit = require('../blockchain/abis/Deposit.json');
 const LoanExt = require('../blockchain/abis/LoanExt.json');
 const { getWeb3 } = require("./transaction");
 const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-controller');
-const { setFairPrice } = require('./oracleopen');
 const { calculateFairPrice } = require('../routes/fairprice');
 const { createNewDeposit, addToDeposit } = require('../controllers/deposit-controller');
 const { default: BigNumber } = require('bignumber.js');
