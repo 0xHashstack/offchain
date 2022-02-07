@@ -21,10 +21,10 @@ const checkIfAnyLoanHasToBeLiquidated = async () => {
 
         if (liquidationCallPrice == loan.collateralAmount) {
             try {
-                let tx = await liquidationTrigger(loan.account, loan.id);
+                let tx = await liquidationTrigger(loan.account, loan.loanId);
                 await addLiquidation({
                     account: loan.account,
-                    id: loan.id
+                    loanId: loan.loanId
                 });
                 return tx;
             } catch(error) {
