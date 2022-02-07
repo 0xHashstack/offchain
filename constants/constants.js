@@ -4,7 +4,7 @@ const rpcURLs = {
     "binanceTestnet": "wss://speedy-nodes-nyc.moralis.io/0333c1541db7fd868fd97aa8/bsc/testnet/ws"
 }
 
-const diamondAddress = "0x4B91Fed1cDd93223262C7D145AD029A36F89caa1";
+const diamondAddress = "0x8711f925aFF7026eC37e78Fa7EAC6de70d899eee";
 
 const chain = "0x61"
 
