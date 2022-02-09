@@ -45,7 +45,7 @@ const getValue = async (contract, method, ...params) => {
     const web3 = getWeb3();
     try {
         let callData = await contract.methods[method](...params).call();
-        return call
+        return callData;
     } catch (err) {
         throw err
     }
