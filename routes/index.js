@@ -4,6 +4,7 @@ const { getDepositsByAccountAPI, createNewDepositAPI, deleteAllDepositsAPI, addT
 const { getLiquidationsAPI } = require('../controllers/liquidation-controller');
 const { getLoansByAccountAPI, deleteAllLoans } = require('../controllers/loan-controller');
 const { addNewAccount, whiteListAddedAccount } = require('./account');
+const {liquidateLoan}= require('../web3/liquidation')
 const router = express.Router();
 const { fetchFairPriceAPI, seedTokenPriceToDB, getTokenPrice, fetchPairs, fetchOrderBookDepth, seedTokenPriceToContract } = require("./fairprice");
 const { triggerLiquidation } = require("./oracleopen");
@@ -38,7 +39,9 @@ router.get('/getLiquidations', getLiquidationsAPI)
 
 router.post('/createDeposit', createNewDepositAPI)
 router.post('/addToDeposit', addToDepositAPI);
-router.get('/deleteAllDeposits', deleteAllDepositsAPI);
-router.get('/deleteAllLoans', deleteAllLoans);
+
+// router.get('/deleteAllDeposits', deleteAllDepositsAPI);
+// router.get('/deleteAllLoans', deleteAllLoans);
+// router.get('/liqLoan', liquidateLoan);
 
 module.exports = router;
