@@ -52,7 +52,9 @@ const decimalBasedOnMarketHash = {
 
 const epochLength = 3
 
-const CT_WHITELISTING=259200000
+// const CT_WHITELISTING=259200000
+
+const CT_WHITELISTING=604800000
 
 module.exports = {
     rpcURLs,
