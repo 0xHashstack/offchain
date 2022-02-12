@@ -5,11 +5,15 @@ const { CT_WHITELISTING } = require('../constants/constants');
 exports.addAccountAPI = async (req, res, next) => {
     try {
         var { address, whiteListed } = req.body;
+        let temp_account= await Accounts.findOne().sort({waitlist_ct:-1}).limit(1);
+        var mwaitlist_ct=Number(temp_account.waitlist_ct);
+        mwaitlist_ct=mwaitlist_ct+1;
         whiteListed=false;
         let accountDetails = {
             address,
             whiteListed,
-            timestamp: new Date().getTime()
+            timestamp: new Date().getTime(),
+            waitlist_ct: mwaitlist_ct
         }
         const account = await Accounts.create(accountDetails);
         return res.status(201).json({
@@ -17,7 +21,7 @@ exports.addAccountAPI = async (req, res, next) => {
             data: account
         })
     } catch (error) {
-        console.log(req);
+        console.log(error);
 
         if (error.name === 'ValidationError') {
             const messages = Object.values(error.errors).map(val => val.message);

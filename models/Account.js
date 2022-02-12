@@ -12,7 +12,12 @@ const AccountSchema = new mongoose.Schema({
     whiteListed: {
         type: Boolean,
         required: true
+    },
+    waitlist_ct:{
+        type: Number,
+        required:true
     }
+
 });
 
 

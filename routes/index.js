@@ -40,8 +40,8 @@ router.get('/getLiquidations', getLiquidationsAPI)
 router.post('/createDeposit', createNewDepositAPI)
 router.post('/addToDeposit', addToDepositAPI);
 
-// router.get('/deleteAllDeposits', deleteAllDepositsAPI);
-// router.get('/deleteAllLoans', deleteAllLoans);
+router.get('/deleteAllDeposits', deleteAllDepositsAPI);
+router.get('/deleteAllLoans', deleteAllLoans);
 // router.get('/liqLoan', liquidateLoan);
 
 module.exports = router;
