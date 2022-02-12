@@ -71,7 +71,6 @@ const checkIfAnyLoanHasToBeLiquidated = async () => {
 // }
 
 module.exports = {
-    checkIfAnyLoanHasToBeLiquidated,
-    liquidateLoan
+    checkIfAnyLoanHasToBeLiquidated
     
 }
