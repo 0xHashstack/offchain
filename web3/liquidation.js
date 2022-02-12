@@ -1,7 +1,7 @@
 const { addLiquidation } = require('../controllers/liquidation-controller');
 const { getLoan } = require('../controllers/loan-controller');
 const { add } = require('../utils/logger');
-const { liquidationTrigger } = require('./loanExt');
+const { liquidationTrigger } = require('../web3/LoanExt');
 
 const checkIfAnyLoanHasToBeLiquidated = async () => {
     let loanDetails = await getLoan();
