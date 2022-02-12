@@ -5,10 +5,19 @@ const LiquidationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    loanId: {
+    // loanId: {
+    //     type: String,
+    //     required: true
+    // },
+    loanMarket: {
         type: String,
         required: true
     },
+    commitment: {
+        type: String,
+        required: true
+    },
+
     timestamp: {
         type: Date,
         required: true

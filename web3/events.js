@@ -2,6 +2,7 @@ const { diamondAddress } = require('../constants/constants');
 const Diamond = require('../blockchain/abis/LibDiamond.json');
 const Deposit = require('../blockchain/abis/Deposit.json');
 const LoanExt = require('../blockchain/abis/LoanExt.json');
+const LibOpen = require('../blockchain/abis/LibOpen.json');
 const { getWeb3 } = require("./transaction");
 const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-controller');
 const { calculateFairPrice } = require('../routes/fairprice');
@@ -22,8 +23,12 @@ const listenToEvents = (app) => {
         Deposit,
         diamondAddress
     )
+    let libOpenContract = new  web3.eth.Contract(
+        LibOpen,
+        diamondAddress
+    )
     NewLoanEvent(loanContract);
-    SwapLoanEvent(diamondContract);
+    SwapLoanEvent(libOpenContract);
     // FairPriceCallEvent(loanContract);
     NewDepositEvent(depositContract);
     AddToDepositEvent(depositContract);
@@ -95,9 +100,9 @@ const NewLoanEvent = (loanContract) => {
 }
 
 // Check if adding is same or we need to do fair price calculation here itself
-const SwapLoanEvent = (loanContract) => {
+const SwapLoanEvent = (libOpenContract) => {
     console.log("Listening to SwapLoan event")
-    loanContract.events.MarketSwapped({}, async (error, event) => {
+    libOpenContract.events.MarketSwapped({}, async (error, event) => {
         if (!error) {
             console.log(event.returnValues)
             let loanId = event.returnValues.id;
