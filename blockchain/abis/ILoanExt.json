@@ -3,34 +3,30 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "_loanMarket",
+        "name": "_market",
         "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "_commitment",
-        "type": "bytes32"
-      },
+      }
+    ],
+    "name": "avblReservesLoan",
+    "outputs": [
       {
         "internalType": "uint256",
-        "name": "_collateralAmount",
+        "name": "",
         "type": "uint256"
       }
     ],
-    "name": "addCollateral",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "isPausedLoan",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_account",
+        "type": "address"
+      }
+    ],
+    "name": "hasLoanAccount",
     "outputs": [
       {
         "internalType": "bool",
@@ -43,13 +39,24 @@
   },
   {
     "inputs": [],
-    "name": "pauseLoan",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "isPausedLoanExt",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
       {
         "internalType": "bytes32",
         "name": "_market",
@@ -59,14 +66,9 @@
         "internalType": "bytes32",
         "name": "_commitment",
         "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "_swapMarket",
-        "type": "bytes32"
       }
     ],
-    "name": "swapLoan",
+    "name": "liquidation",
     "outputs": [
       {
         "internalType": "bool",
@@ -81,16 +83,31 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "_commitment",
+        "name": "_market",
         "type": "bytes32"
       },
       {
         "internalType": "bytes32",
-        "name": "_loanMarket",
+        "name": "_commitment",
         "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_loanAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "_collateralMarket",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_collateralAmount",
+        "type": "uint256"
       }
     ],
-    "name": "swapToLoan",
+    "name": "loanRequest",
     "outputs": [
       {
         "internalType": "bool",
@@ -103,7 +120,7 @@
   },
   {
     "inputs": [],
-    "name": "unpauseLoan",
+    "name": "pauseLoanExt",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -119,9 +136,14 @@
         "internalType": "bytes32",
         "name": "_commitment",
         "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_repayAmount",
+        "type": "uint256"
       }
     ],
-    "name": "withdrawCollateral",
+    "name": "repayLoan",
     "outputs": [
       {
         "internalType": "bool",
@@ -130,6 +152,32 @@
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "unpauseLoanExt",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_market",
+        "type": "bytes32"
+      }
+    ],
+    "name": "utilisedReservesLoan",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ]
