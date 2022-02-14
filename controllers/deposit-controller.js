@@ -2,6 +2,7 @@ const { default: BigNumber } = require('bignumber.js');
 const { symbols, commitmentHash } = require('../constants/constants');
 const Deposit = require('../models/Deposit');
 const { calculateAcquiredYield } = require('../utils/maths');
+const logger = require("../utils/logger");
 
 exports.createNewDepositAPI = async (req, res, next) => {
     try {
@@ -37,6 +38,7 @@ exports.addToDepositAPI = async (req, res, next) => {
 
 exports.createNewDeposit = async (depositDetails) => {
     try {
+        logger.log('info','createNewDeposit with : %s', depositDetails)
         depositDetails["timestamp"] = new Date().getTime();
         depositDetails["lastModified"] = depositDetails["timestamp"];
         const depositAdded = await Deposit.create(depositDetails);
@@ -44,6 +46,7 @@ exports.createNewDeposit = async (depositDetails) => {
         return depositAdded;
     } catch (error) {
         console.error(error);
+        logger.log('error','createNewDeposit retuened Error : %s', error)
         if (error.name === 'ValidationError') {
             const messages = Object.values(error.errors).map(val => val.message);
             throw new Error(messages)
@@ -55,6 +58,7 @@ exports.createNewDeposit = async (depositDetails) => {
 
 exports.addToDeposit = async (updatedDepositDetails) => {
     try {
+        logger.log('info','addToDeposit with : %s', updatedDepositDetails)
         let deposit = await Deposit.findOne({depositId: updatedDepositDetails.depositId});
         if(!deposit) {
             console.warn("No existing deposit found!");
@@ -80,6 +84,7 @@ exports.addToDeposit = async (updatedDepositDetails) => {
         console.log(`Added amount ${addedAmount} to deposit ${updatedDepositDetails.depositId}`);
         return depositAdded;
     } catch (error) {
+        logger.log('error','addToDeposit retuened Error : %s', error)
         throw error;
     }
 }

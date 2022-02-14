@@ -8,10 +8,9 @@ exports.addAccountAPI = async (req, res, next) => {
         let temp_account= await Accounts.findOne().sort({waitlist_ct:-1}).limit(1);
         var mwaitlist_ct=Number(temp_account.waitlist_ct);
         mwaitlist_ct=mwaitlist_ct+1;
-        whiteListed=false;
         let accountDetails = {
-            address,
-            whiteListed,
+            address:address,
+            whiteListed:false,
             timestamp: new Date().getTime(),
             waitlist_ct: mwaitlist_ct
         }
