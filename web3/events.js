@@ -44,7 +44,7 @@ const NewDepositEvent = (depositContract) => {
                 console.log(event);
                 console.log(event.returnValues)
                 logger.log('info','NewDepositEvent Called with : %s', event)
-                logger.log('info','AddToDepositEvent returnValues Called with : %s', event.returnValues)
+                logger.log('info','NewDepositEvent_str Called with : %s', JSON.stringify(event))
                 await createNewDeposit(event.returnValues)
             } else {
                 console.error(error);
@@ -65,7 +65,7 @@ const AddToDepositEvent = (depositContract) => {
                 console.log(event);
                 console.log(event.returnValues)
                 logger.log('info','AddToDepositEvent Called with : %s', event)
-                logger.log('info','AddToDepositEvent returnValues Called with : %s', event.returnValues)
+                logger.log('info','AddToDepositEvent_str Called with : %s', JSON.stringify(event))
                 await addToDeposit(event.returnValues)
             } else {
                 console.error(error);
