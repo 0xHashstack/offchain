@@ -8,6 +8,7 @@ const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-
 const { calculateFairPrice } = require('../routes/fairprice');
 const { createNewDeposit, addToDeposit } = require('../controllers/deposit-controller');
 const { default: BigNumber } = require('bignumber.js');
+const logger = require("../utils/logger");
 
 const listenToEvents = (app) => {
     const web3 = getWeb3();
@@ -42,12 +43,15 @@ const NewDepositEvent = (depositContract) => {
             if (!error) {
                 console.log(event);
                 console.log(event.returnValues)
+                logger.log('info','NewDepositEvent Called with : %s', event)
+                logger.log('info','AddToDepositEvent returnValues Called with : %s', event.returnValues)
                 await createNewDeposit(event.returnValues)
             } else {
                 console.error(error);
             }
         }
         catch (err) {
+            logger.log('error','NewDepositEvent retuened Error : %s', err)
             console.error(err);
         }
     })
@@ -60,9 +64,12 @@ const AddToDepositEvent = (depositContract) => {
             if (!error) {
                 console.log(event);
                 console.log(event.returnValues)
+                logger.log('info','AddToDepositEvent Called with : %s', event)
+                logger.log('info','AddToDepositEvent returnValues Called with : %s', event.returnValues)
                 await addToDeposit(event.returnValues)
             } else {
                 console.error(error);
+                logger.log('error','AddToDepositEvent retuened Error : %s', err)
             }
         }
         catch (err) {
