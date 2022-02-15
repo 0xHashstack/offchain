@@ -51,8 +51,8 @@ cron.schedule('* * * * *', async () => {
 })
 
 console.log = function(d) {
-    console.log(d)
-    logger.log('info','CONSOLE : %s', d)
+
+  logger.log('info','CONSOLE : %s', d)
     process.stdout.write(d + '\n');
 };
 
