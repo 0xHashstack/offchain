@@ -91,7 +91,7 @@ exports.updateLoanAmount = async (loanId, loanAmount) => {
 
 exports.addLoan = async (loanDetails) => {
     try {
-        loanDetails["timestamp"] = new Date().getTime();
+        loanDetails["timestamp"] = new Date(loanDetails.time).getTime();
         const loanAdded = await Loan.create(loanDetails);
         console.log("Loan Added");
         console.log(loanAdded);
