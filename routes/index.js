@@ -14,7 +14,7 @@ const logger = require('../utils/logger');
 
 router.get('/', (req, res) => {
     logger.info("Server sending a All OK")
-    res.status(200).send('Welcome to hashstack finance!');
+    res.status(200).send('Welcome to hashstack finance!!');
 });
 
 router.get('/fairPrice', fetchFairPriceAPI);
