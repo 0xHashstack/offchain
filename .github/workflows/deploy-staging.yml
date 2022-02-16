@@ -1,18 +1,18 @@
-name: deploy
+name: deploy_staging
 concurrency: testnet
 
 on:
   push:
     branches:
-      - [staging]
+      - staging
   pull_request:
     branches:
-      - [staging]
+      - staging
   workflow_dispatch:
 
 jobs:
   deploy-open-offchain:
-    name: deployment
+    name: deployment_staging
     runs-on: ubuntu-20.04
     environment: testnet
     steps:
