@@ -50,7 +50,7 @@ const NewDepositEvent = (depositContract) => {
             }
         }
         catch (err) {
-            logger.log('error','NewDepositEvent retuened Error : %s', err)
+            logger.log('error','NewDepositEvent retuened Error : %s', JSON.stringify(err))
             console.error(err);
         }
     })
@@ -72,6 +72,7 @@ const AddToDepositEvent = (depositContract) => {
         }
         catch (err) {
             console.error(err);
+            logger.log('error','AddToDepositEvent retuened Error : %s', JSON.stringify(err))
         }
     })
 }
@@ -80,6 +81,7 @@ const NewLoanEvent = (loanContract) => {
     console.log("Listening to NewLoan event")
     loanContract.events.NewLoan({}, async (error, event) => {
         try {
+            logger.log('info','NewLoanEvent Called with : %s', JSON.stringify(event))
             if (!error) {
                 console.log(event.returnValues)
                 let loanDetails = event.returnValues;
@@ -100,6 +102,7 @@ const NewLoanEvent = (loanContract) => {
         }
         catch (err) {
             console.error(err);
+            logger.log('error','NewLoanEvent retuened Error : %s', JSON.stringify(err))
         }
     })
 }
@@ -108,6 +111,7 @@ const NewLoanEvent = (loanContract) => {
 const SwapLoanEvent = (libOpenContract) => {
     console.log("Listening to SwapLoan event")
     libOpenContract.events.MarketSwapped({}, async (error, event) => {
+        logger.log('info','SwapLoanEvent Called with : %s', JSON.stringify(event))
         if (!error) {
             console.log(event.returnValues)
             let loanId = event.returnValues.id;
@@ -120,6 +124,7 @@ const SwapLoanEvent = (libOpenContract) => {
             }
         } else {
             console.error(error);
+            logger.log('error','SwapLoanEvent retuened Error : %s', JSON.stringify(err))
         }
     })
 }
