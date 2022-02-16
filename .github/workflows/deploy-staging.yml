@@ -4,10 +4,10 @@ concurrency: testnet
 on:
   push:
     branches:
-      - [staging]
+      - staging
   pull_request:
     branches:
-      - [staging]
+      - staging
   workflow_dispatch:
 
 jobs:
