@@ -1,4 +1,4 @@
-name: deploy
+name: deploy_staging
 concurrency: testnet
 
 on:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   deploy-open-offchain:
-    name: deployment
+    name: deployment_staging
     runs-on: ubuntu-20.04
     environment: testnet
     steps:
