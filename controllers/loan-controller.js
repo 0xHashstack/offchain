@@ -93,6 +93,19 @@ exports.getLoanData = async (account, loanMarket, commmitment) =>{
     }
 }
 
+exports.updateSwapLoadEventData = async (loanId, account, currentMarket, currentAmount, isSwapped) =>{
+    try {
+        const loan = await Loan.findOneAndUpdate({ loanId, account },{$set: { currentMarket, currentAmount, isSwapped }});
+        if (!loan) {
+            console.log(`No loan with id: ${loanId} found!`)
+            return;
+        }
+        return loan;
+    } catch (error) {
+        throw error;
+    }
+}
+
 exports.updateLoanAmount = async (loanId, loanAmount) => {
     try {
         const loan = await Loan.findOneAndUpdate({ loanId: loanId }, { loanAmount }, { new: true });
