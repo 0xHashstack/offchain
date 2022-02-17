@@ -76,7 +76,7 @@ exports.isWhiteListedAccount = async(req, res, next) => {
             logger.log('info','isWhitelistedAccount returns the Status from DB %s : %s', mflag, address)
             return res.status(201).json({
                 success: true,
-                isWhiteListed: mflag,
+                isWhiteListed: false,
                 waitlist_ct: mwaitlist_ct
             })
         }
