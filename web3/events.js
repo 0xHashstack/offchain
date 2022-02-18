@@ -4,7 +4,7 @@ const Deposit = require('../blockchain/abis/Deposit.json');
 const LoanExt = require('../blockchain/abis/LoanExt.json');
 const LibOpen = require('../blockchain/abis/LibOpen.json');
 const { getWeb3 } = require("./transaction");
-const { addLoan, getLoanById, updateLoanAmount } = require('../controllers/loan-controller');
+const { addLoan, getLoanById, updateSwapLoadEventData, getLoanData } = require('../controllers/loan-controller');
 const { calculateFairPrice } = require('../routes/fairprice');
 const { createNewDeposit, addToDeposit } = require('../controllers/deposit-controller');
 const { default: BigNumber } = require('bignumber.js');
@@ -114,13 +114,16 @@ const SwapLoanEvent = (libOpenContract) => {
     console.log("Listening to SwapLoan event")
     libOpenContract.events.MarketSwapped({}, async (error, event) => {
         logger.log('info','SwapLoanEvent Called with : %s', JSON.stringify(event))
+
         if (!error) {
-            console.log(event.returnValues)
-            let loanId = event.returnValues.id;
+            // let loanId = event.returnValues.id;
+            const { account, loanMarket, commmitment, currentMarket, currentAmount, isSwapped } = event.returnValues;
             try {
-                let loan = await getLoanById(loanId);
-                let fairPrice = await calculateFairPrice(event.returnValues.marketTo, loan.loanAmount, event.returnValues.marketFrom);
-                await updateLoanAmount(loanId, fairPrice);
+                // let loan = await getLoanById(loanId);
+                let loan = await getLoanData(account, loanMarket, commmitment);
+                // let fairPrice = await calculateFairPrice(event.returnValues.marketTo, loan.loanAmount, event.returnValues.marketFrom);
+                // await updateLoanAmount(loan.loanId, fairPrice);
+                await updateSwapLoadEventData(loan.loanId, account, currentMarket, currentAmount, isSwapped);
             } catch (error) {
                 console.error(error);
             }
