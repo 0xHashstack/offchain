@@ -41,9 +41,8 @@ const NewDepositEvent = (depositContract) => {
     depositContract.events.NewDeposit({}, async (error, event) => {
         try {
             if (!error) {
-                console.log(event);
+                console.log("****** NewDepositEvent ********")
                 console.log(event.returnValues)
-                logger.log('info','NewDepositEvent Called with : %s', event)
                 logger.log('info','NewDepositEvent_str Called with : %s', JSON.stringify(event))
                 await createNewDeposit(event.returnValues)
             } else {
@@ -62,9 +61,8 @@ const AddToDepositEvent = (depositContract) => {
     depositContract.events.DepositAdded({}, async (error, event) => {
         try {
             if (!error) {
-                console.log(event);
+                console.log("****** AddToDepositEvent ********")
                 console.log(event.returnValues)
-                logger.log('info','AddToDepositEvent Called with : %s', event)
                 logger.log('info','AddToDepositEvent_str Called with : %s', JSON.stringify(event))
                 await addToDeposit(event.returnValues)
             } else {

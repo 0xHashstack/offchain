@@ -5,7 +5,7 @@ const { liquidationTrigger } = require('../web3/LoanExt');
 
 const checkIfAnyLoanHasToBeLiquidated = async () => {
     let loanDetails = await getLoan();
-    console.log("All Loans: ", loanDetails);
+    // console.log("All Loans: ", loanDetails);
     loanDetails.forEach(async (loan) => {
         // Calculate liquidation price
         let liquidationPrice;

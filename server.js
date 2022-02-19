@@ -13,7 +13,7 @@ require('dotenv').config()
 
 let app = express();
 var corsOptions = {
-  origin: 'https://testnet.hashstack.finance',
+  origin: ['https://testnet.hashstack.finance','http://localhost:3001'],
   optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions));
@@ -50,11 +50,11 @@ cron.schedule('* * * * *', async () => {
   await checkIfAnyLoanHasToBeLiquidated()
 })
 
-console.log = function(d) {
+// console.log = function(d) {
 
-  logger.log('info','CONSOLE : %s', d)
-    process.stdout.write(d + '\n');
-};
+//   logger.log('info','CONSOLE : %s', d)
+//     process.stdout.write(d + '\n');
+// };
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
