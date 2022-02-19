@@ -108,6 +108,7 @@ exports.getDepositsByAccountAPI = async (req, res, next) => {
             deposit["commitment"] = commitmentHash[deposit["commitment"]];
             deposit["acquiredYield"] = acquiredYield + calculateAcquiredYield(deposit, now);
             deposit["lastModified"] = now;
+            deposit["depositId"] = deposit["depositId"];
             await this.updateAcquiredYield(deposit);
         });
         return res.status(200).json({
