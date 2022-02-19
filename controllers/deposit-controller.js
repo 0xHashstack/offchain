@@ -39,7 +39,7 @@ exports.addToDepositAPI = async (req, res, next) => {
 exports.createNewDeposit = async (depositDetails) => {
     try {
         logger.log('info','createNewDeposit with : %s', depositDetails)
-        depositDetails["timestamp"] = new Date(Number(depositDetails.time)).getTime();
+        depositDetails["timestamp"] = new Date(Number(depositDetails.time)*1000).getTime();
         depositDetails["lastModified"] = depositDetails["timestamp"];
         const depositAdded = await Deposit.create(depositDetails);
         console.log(`New deposit ${depositDetails.depositId} created`);
