@@ -1,12 +1,19 @@
 const { diamondAddress } = require('../constants/constants');
 const Diamond = require('../blockchain/abis/LibDiamond.json');
 const Deposit = require('../blockchain/abis/Deposit.json');
+const Loan = require('../blockchain/abis/Loan.json');
 const LoanExt = require('../blockchain/abis/LoanExt.json');
 const LibOpen = require('../blockchain/abis/LibOpen.json');
 const { getWeb3 } = require("./transaction");
 const { addLoan, getLoanById, updateSwapLoadEventData, getLoanData } = require('../controllers/loan-controller');
 const { calculateFairPrice } = require('../routes/fairprice');
 const { createNewDeposit, addToDeposit } = require('../controllers/deposit-controller');
+const { createWithdrawalDeposit } = require('../controllers/withdrawal-controller');
+const { createWithdrawalPartialLoan } = require ('../controllers/withdraw-partialloan-controller');
+const { createAddCollateralDeposit } = require('../controllers/add-collateral-controller');
+const { addLiquidation } = require('../controllers/liquidation-controller');
+const { createLoanRepaid } = require('../controllers/loan-repaid-controller');
+const { createCollateralReleased } = require ('../controllers/collateral-released');
 const { default: BigNumber } = require('bignumber.js');
 const logger = require("../utils/logger");
 
@@ -28,11 +35,23 @@ const listenToEvents = (app) => {
         LibOpen,
         diamondAddress
     )
+    let partialLoanContract = new web3.eth.Contract(
+        Loan,
+        diamondAddress
+    )
     NewLoanEvent(loanContract);
     SwapLoanEvent(libOpenContract);
     // FairPriceCallEvent(loanContract);
     NewDepositEvent(depositContract);
     AddToDepositEvent(depositContract);
+    WithdrawalDepositEvent(depositContract);
+    //partialLoanContract is loan contract
+    WithdraPartialLoanDepositEvent(partialLoanContract);
+    //loan contract is loanExt contract
+    RepaidLoanEvent(loanContract);
+    LiquidationEvent(loanContract);
+    AddCollateralEvent(partialLoanContract);
+    collatralReleasedEvent(partialLoanContract);
     return app
 }
 
@@ -151,6 +170,128 @@ const SwapLoanEvent = (libOpenContract) => {
 //         }
 //     })
 // }
+
+//emit Withdrawal(msg.sender,_market, _amount, _commitment, block.timestamp);
+const WithdrawalDepositEvent = (depositContract) => {
+    console.log("Listening to withdrawal event", depositContract); //
+    depositContract.events.Withdrawal({}, async (error, event) => {
+        try {
+            if (!error) {
+                console.log("****** withdrawal ********")
+                console.log(event.returnValues)
+                logger.log('info','NewDepositEvent_str Called with : %s', JSON.stringify(event))
+                await createWithdrawalDeposit(event.returnValues) //
+            } else {
+                console.error(error);
+            }
+        }
+        catch (err) {
+            logger.log('error','NewDepositEvent retuened Error : %s', JSON.stringify(err))
+            console.error(err);
+        }
+    })
+}
+
+const WithdraPartialLoanDepositEvent = (loanContract) => {
+    console.log("Listening to WithdraPartialLoanDepositEvent event", loanContract); //
+    loanContract.events.WithdrawPartialLoan({}, async (error, event) => {
+        try {
+            if (!error) {
+                console.log("****** WithdrawPartialLoan ********")
+                console.log(event.returnValues)
+                logger.log('info','WithdrawPartialLoan Called with : %s', JSON.stringify(event))
+                await createWithdrawalPartialLoan(event.returnValues)
+            } else {
+                console.error(error);
+            }
+        }
+        catch (err) {
+            logger.log('error','WithdraPartialLoanDepositEvent retuened Error : %s', JSON.stringify(err))
+            console.error(err);
+        }
+    })
+}
+
+const RepaidLoanEvent = (loanExtContract) => {
+    console.log("Listening to RepaidLoanEvent event", loanExtContract); //
+    loanExtContract.events.LoanRepaid({}, async (error, event) => {
+        try {
+            if (!error) {
+                console.log("****** RepaidLoanEvent ********")
+                console.log(event.returnValues)
+                logger.log('info','RepaidLoanEvent Called with : %s', JSON.stringify(event))
+                await createLoanRepaid(event.returnValues) //
+            } else {
+                console.error(error);
+            }
+        }
+        catch (err) {
+            logger.log('error','RepaidLoanEvent retuened Error : %s', JSON.stringify(err))
+            console.error(err);
+        }
+    })
+}
+
+const LiquidationEvent = (loanExtContract) => {
+    console.log("Listening to LiquidationEvent event", loanExtContract); //
+    loanExtContract.events.Liquidation({}, async (error, event) => {
+        try {
+            if (!error) {
+                console.log("****** LiquidationEvent ********")
+                console.log(event.returnValues)
+                logger.log('info','LiquidationEvent Called with : %s', JSON.stringify(event))
+                await addLiquidation(event.returnValues) //
+            } else {
+                console.error(error);
+            }
+        }
+        catch (err) {
+            logger.log('error','LiquidationEvent retuened Error : %s', JSON.stringify(err))
+            console.error(err);
+        }
+    })
+}
+
+const AddCollateralEvent = (partialLoanContract) => {
+    console.log("Listening to AddCollateralEvent event", partialLoanContract); //
+    partialLoanContract.events.AddCollateral({}, async (error, event) => {
+        try {
+            if (!error) {
+                console.log("****** AddCollateralEvent ********")
+                console.log(event.returnValues)
+                logger.log('info','AddCollateralEvent_str Called with : %s', JSON.stringify(event))
+                await createAddCollateralDeposit(event.returnValues) //
+            } else {
+                console.error(error);
+            }
+        }
+        catch (err) {
+            logger.log('error','AddCollateralEvent retuened Error : %s', JSON.stringify(err))
+            console.error(err);
+        }
+    })
+}
+
+
+const collatralReleasedEvent = (partialLoanContract) => {
+    console.log("Listening to collatralReleasedEvent event", partialLoanContract); //
+    partialLoanContract.events.CollateralReleased({}, async (error, event) => {
+        try {
+            if (!error) {
+                console.log("****** contractReleasedEvent ********")
+                console.log(event.returnValues)
+                logger.log('info','collatralReleasedEvent_str Called with : %s', JSON.stringify(event))
+                await createCollateralReleased(event.returnValues) //
+            } else {
+                console.error(error);
+            }
+        }
+        catch (err) {
+            logger.log('error','collatralReleasedEvent retuened Error : %s', JSON.stringify(err))
+            console.error(err);
+        }
+    })
+}
 
 module.exports = {
     listenToEvents
