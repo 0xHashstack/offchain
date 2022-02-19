@@ -40,6 +40,17 @@ const LoanSchema = new mongoose.Schema({
     timestamp: {
         type: Date,
         required: true
+    },
+    isSwapped: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
+    currentMarket: {
+        type: String
+    }, 
+    currentAmount: {
+        type: Number,
     }
 });
 
