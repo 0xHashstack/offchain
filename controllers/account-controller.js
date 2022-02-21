@@ -1,4 +1,6 @@
 const Accounts = require("../models/Account");
+const WL_Address = require("../models/WL_Address");
+
 const logger = require("../utils/logger");
 const { CT_WHITELISTING } = require('../constants/constants');
 
@@ -70,10 +72,17 @@ exports.isWhiteListedAccount = async(req, res, next) => {
         const address = req.query.address;
         let account = await Accounts.findOne({address: { $regex : new RegExp(address, "i") } });
         if(account) {
-            let wl_account=await WL_Address.findOne({address: { $regex : new RegExp(address, "i") } })
-            console.log(wl_account);
             var mflag=(new Date().getTime()-new Date(account.timestamp).getTime()>CT_WHITELISTING) || account.whiteListed
             logger.log('info','isWhitelistedAccount returns the Status from DB %s : %s', mflag, address)
+            
+
+            // Hardcoding the mflag below for testing. Should be removed.
+            // let wl_account=await WL_Address.findOne({address: { $regex : new RegExp(address, "i") } })
+            // console.log(wl_account);
+            // mflag=false;
+            // if(wl_account){
+            //    mflag=true;
+            // }
             return res.status(201).json({
                 success: true,
                 isWhiteListed: mflag
