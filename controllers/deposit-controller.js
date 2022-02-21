@@ -39,7 +39,7 @@ exports.addToDepositAPI = async (req, res, next) => {
 exports.createNewDeposit = async (depositDetails) => {
     try {
         logger.log('info','createNewDeposit with : %s', depositDetails)
-        depositDetails["timestamp"] = new Date(depositDetails.time).getTime();
+        depositDetails["timestamp"] = new Date(Number(depositDetails.time)*1000).getTime();
         depositDetails["lastModified"] = depositDetails["timestamp"];
         const depositAdded = await Deposit.create(depositDetails);
         console.log(`New deposit ${depositDetails.depositId} created`);
@@ -59,11 +59,15 @@ exports.createNewDeposit = async (depositDetails) => {
 exports.addToDeposit = async (updatedDepositDetails) => {
     try {
         logger.log('info','addToDeposit with : %s', updatedDepositDetails)
-        let deposit = await Deposit.findOne({depositId: updatedDepositDetails.depositId});
+        let deposit = await Deposit.findOne({
+            depositId: updatedDepositDetails.depositId,
+            account:updatedDepositDetails.account
+        });
         if(!deposit) {
             console.warn("No existing deposit found!");
             return;
         }
+        console.log("Existing Deposit : "+deposit)
         const now = new Date().getTime();
         let acquiredYield = deposit["acquiredYield"] || 0;
         acquiredYield += calculateAcquiredYield(deposit, now);
@@ -73,7 +77,8 @@ exports.addToDeposit = async (updatedDepositDetails) => {
         let totalAmount = prevAmount.plus(addedAmount).toString();
 
         let depositAdded = await Deposit.updateOne({
-            depositId: updatedDepositDetails.depositId
+            depositId: updatedDepositDetails.depositId,
+            account:updatedDepositDetails.account
         }, {
             acquiredYield: acquiredYield,
             lastModified: now,
