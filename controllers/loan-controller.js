@@ -25,9 +25,10 @@ exports.getLoansByAccountAPI = async (req, res, next) => {
             loan["collateralMarket"] = symbols[loan["collateralMarket"]];
             loan["commitment"] = commitmentHash[loan["commitment"]];
         });
+        const data = loans.length !== 0 ? loans : 'Account Not Found';   
         return res.status(200).json({
             success: true,
-            data: loans
+            data
         })
     } catch (error) {
         return res.status(500).json({

@@ -56,7 +56,7 @@ const listenToEvents = (app) => {
 }
 
 const NewDepositEvent = (depositContract) => {
-    console.log("Listening to NewDeposit event");
+    //console.log("Listening to NewDeposit event");
     depositContract.events.NewDeposit({}, async (error, event) => {
         try {
             if (!error) {
@@ -76,7 +76,7 @@ const NewDepositEvent = (depositContract) => {
 }
 
 const AddToDepositEvent = (depositContract) => {
-    console.log("Listening to DepositAdded event");
+    //console.log("Listening to DepositAdded event");
     depositContract.events.DepositAdded({}, async (error, event) => {
         try {
             if (!error) {
@@ -97,7 +97,7 @@ const AddToDepositEvent = (depositContract) => {
 }
 
 const NewLoanEvent = (loanContract) => {
-    console.log("Listening to NewLoan event")
+    //console.log("Listening to NewLoan event")
     loanContract.events.NewLoan({}, async (error, event) => {
         try {
             logger.log('info','NewLoanEvent Called with : %s', JSON.stringify(event))
@@ -128,7 +128,7 @@ const NewLoanEvent = (loanContract) => {
 
 // Check if adding is same or we need to do fair price calculation here itself
 const SwapLoanEvent = (libOpenContract) => {
-    console.log("Listening to SwapLoan event")
+    //console.log("Listening to SwapLoan event")
     libOpenContract.events.MarketSwapped({}, async (error, event) => {
         logger.log('info','SwapLoanEvent Called with : %s', JSON.stringify(event))
 
@@ -173,7 +173,7 @@ const SwapLoanEvent = (libOpenContract) => {
 
 //emit Withdrawal(msg.sender,_market, _amount, _commitment, block.timestamp);
 const WithdrawalDepositEvent = (depositContract) => {
-    console.log("Listening to withdrawal event", depositContract); //
+    //console.log("Listening to withdrawal event", depositContract); //
     depositContract.events.Withdrawal({}, async (error, event) => {
         try {
             if (!error) {
@@ -193,7 +193,7 @@ const WithdrawalDepositEvent = (depositContract) => {
 }
 
 const WithdraPartialLoanDepositEvent = (loanContract) => {
-    console.log("Listening to WithdraPartialLoanDepositEvent event", loanContract); //
+    //console.log("Listening to WithdraPartialLoanDepositEvent event", loanContract); //
     loanContract.events.WithdrawPartialLoan({}, async (error, event) => {
         try {
             if (!error) {
@@ -213,7 +213,7 @@ const WithdraPartialLoanDepositEvent = (loanContract) => {
 }
 
 const RepaidLoanEvent = (loanExtContract) => {
-    console.log("Listening to RepaidLoanEvent event", loanExtContract); //
+    //console.log("Listening to RepaidLoanEvent event", loanExtContract); //
     loanExtContract.events.LoanRepaid({}, async (error, event) => {
         try {
             if (!error) {
@@ -233,7 +233,7 @@ const RepaidLoanEvent = (loanExtContract) => {
 }
 
 const LiquidationEvent = (loanExtContract) => {
-    console.log("Listening to LiquidationEvent event", loanExtContract); //
+    //console.log("Listening to LiquidationEvent event", loanExtContract); //
     loanExtContract.events.Liquidation({}, async (error, event) => {
         try {
             if (!error) {
@@ -253,7 +253,7 @@ const LiquidationEvent = (loanExtContract) => {
 }
 
 const AddCollateralEvent = (partialLoanContract) => {
-    console.log("Listening to AddCollateralEvent event", partialLoanContract); //
+    //console.log("Listening to AddCollateralEvent event", partialLoanContract); //
     partialLoanContract.events.AddCollateral({}, async (error, event) => {
         try {
             if (!error) {
@@ -274,7 +274,7 @@ const AddCollateralEvent = (partialLoanContract) => {
 
 
 const collatralReleasedEvent = (partialLoanContract) => {
-    console.log("Listening to collatralReleasedEvent event", partialLoanContract); //
+   // console.log("Listening to collatralReleasedEvent event", partialLoanContract); //
     partialLoanContract.events.CollateralReleased({}, async (error, event) => {
         try {
             if (!error) {
