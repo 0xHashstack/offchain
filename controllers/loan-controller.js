@@ -31,9 +31,10 @@ exports.getLoansByAccountAPI = async (req, res, next) => {
             loan["currentMarket"] = symbols[loan["currentMarket"]];
             loan["currentAmount"] = loan["currentAmount"];
         });
+        const data = loans.length !== 0 ? loans : 'Account Not Found';   
         return res.status(200).json({
             success: true,
-            data: loans
+            data
         })
     } catch (error) {
         return res.status(500).json({
