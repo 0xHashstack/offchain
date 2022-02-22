@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const WL_Address_Schema = new mongoose.Schema({
     address: {
         type: String,
-        required: true
+        required: [true, 'Address field missing'],
+        unique: [true,'Address Already Whitelisted']
     },
 });
 

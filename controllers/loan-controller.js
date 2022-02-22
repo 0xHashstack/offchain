@@ -24,6 +24,12 @@ exports.getLoansByAccountAPI = async (req, res, next) => {
             loan["loanMarket"] = symbols[loan["loanMarket"]];
             loan["collateralMarket"] = symbols[loan["collateralMarket"]];
             loan["commitment"] = commitmentHash[loan["commitment"]];
+            loan["loanId"] = loan["loanId"];
+            loan["loanAmount"] = loan["loanAmount"];
+            loan["collateralAmount"] = loan["collateralAmount"];
+            loan["isSwapped"] = loan["isSwapped"];
+            loan["currentMarket"] = symbols[loan["currentMarket"]];
+            loan["currentAmount"] = loan["currentAmount"];
         });
         return res.status(200).json({
             success: true,
