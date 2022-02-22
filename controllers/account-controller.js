@@ -77,8 +77,6 @@ exports.isWhiteListedAccount = async(req, res, next) => {
         var mwaitlist_ct=Number(temp_account.waitlist_ct);
 
         if(account) {
-            let wl_account=await WL_Address.findOne({address:address})
-            console.log(wl_account);
             var mflag=(new Date().getTime()-new Date(account.timestamp).getTime()>CT_WHITELISTING) || account.whiteListed
             logger.log('info','isWhitelistedAccount returns the Status from DB %s : %s', mflag, address)
 
