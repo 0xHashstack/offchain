@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const AccountSchema = new mongoose.Schema({
     address: {
         type: String,
-        required: true
+        required: true,
+        unique: [true,'Address need to be unique']
     },
     timestamp: {
         type: Date,

@@ -77,11 +77,12 @@ exports.isWhiteListedAccount = async(req, res, next) => {
             console.log(wl_account);
             var mflag=(new Date().getTime()-new Date(account.timestamp).getTime()>CT_WHITELISTING) || account.whiteListed
             logger.log('info','isWhitelistedAccount returns the Status from DB %s : %s', mflag, address)
+            
             // Hardcoding the mflag below for testing. Should be removed.
-            mflag=false;
-            if(wl_account){
-                mflag=true;
-            }
+            // mflag=false;
+            // if(wl_account){
+            //    mflag=true;
+            // }
             return res.status(201).json({
                 success: true,
                 isWhiteListed: mflag,
