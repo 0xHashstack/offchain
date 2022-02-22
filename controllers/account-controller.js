@@ -77,12 +77,13 @@ exports.isWhiteListedAccount = async(req, res, next) => {
             
 
             // Hardcoding the mflag below for testing. Should be removed.
-            // let wl_account=await WL_Address.findOne({address: { $regex : new RegExp(address, "i") } })
-            // console.log(wl_account);
-            // mflag=false;
-            // if(wl_account){
-            //    mflag=true;
-            // }
+            let wl_account=await WL_Address.findOne({address: { $regex : new RegExp(address, "i") } })
+            console.log(wl_account);
+            mflag=false;
+            if(wl_account){
+               mflag=true;
+            }
+            
             return res.status(201).json({
                 success: true,
                 isWhiteListed: mflag
