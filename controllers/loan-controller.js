@@ -86,6 +86,32 @@ exports.getLoanById = async (loanId) => {
     }
 }
 
+exports.getLoanData = async (account, loanMarket, commmitment) =>{
+    try {
+        const loan = await Loan.findOne({ account, loanMarket, commmitment });
+        if (!loan) {
+            console.log(`No loan with id: ${loanId} found!`)
+            return;
+        }
+        return loan;
+    } catch (error) {
+        throw error;
+    }
+}
+
+exports.updateSwapLoadEventData = async (loanId, account, currentMarket, currentAmount, isSwapped) =>{
+    try {
+        const loan = await Loan.findOneAndUpdate({ loanId, account },{$set: { currentMarket, currentAmount, isSwapped }});
+        if (!loan) {
+            console.log(`No loan with id: ${loanId} found!`)
+            return;
+        }
+        return loan;
+    } catch (error) {
+        throw error;
+    }
+}
+
 exports.updateLoanAmount = async (loanId, loanAmount) => {
     try {
         const loan = await Loan.findOneAndUpdate({ loanId: loanId }, { loanAmount }, { new: true });
@@ -97,7 +123,7 @@ exports.updateLoanAmount = async (loanId, loanAmount) => {
 
 exports.addLoan = async (loanDetails) => {
     try {
-        loanDetails["timestamp"] = new Date(loanDetails.time).getTime();
+        loanDetails["timestamp"] = new Date(Number(loanDetails.time)).getTime();
         const loanAdded = await Loan.create(loanDetails);
         console.log("Loan Added");
         console.log(loanAdded);
