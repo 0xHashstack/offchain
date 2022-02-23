@@ -1,0 +1,31 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "airbnb",
+        "prettier"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest"
+    },
+    "plugins": [
+        "prettier"
+    ],
+    "rules": {
+        "prettier/prettier":["error"],
+        "no-console": "off", //remove console for now
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "no-unused-vars":"warn", //change it to eror later 
+        "func-names":"off"
+    }
+}

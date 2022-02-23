@@ -5,24 +5,36 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@newrelic/winston-enricher": "^2.1.0",
-    "aws-sdk": "^2.1053.0",
+    "aws-sdk": "^2.1079.0",
     "bignumber.js": "^9.0.2",
     "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
+    "dotenv": "^16.0.0",
     "ethereumjs-wallet": "^1.0.2",
-    "express": "^4.17.1",
-    "mongoose": "^6.1.2",
+    "express": "^4.17.3",
+    "mongoose": "^6.2.3",
     "morgan": "^1.10.0",
-    "newrelic": "^8.7.0",
+    "newrelic": "^8.7.1",
     "node-cron": "^3.0.0",
-    "node-fetch": "^2.6.7",
-    "web3": "^1.6.1",
-    "xlsx": "^0.17.4"
+    "node-fetch": "^3.2.0",
+    "web3": "^1.7.0",
+    "xlsx": "^0.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0"
   }
 }
