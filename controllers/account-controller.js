@@ -1,5 +1,5 @@
 const Accounts = require("../models/Account");
-const WL_Address = require("../models/WL_Address");
+const WL_Address= require("../models/WL_Address");
 
 const logger = require("../utils/logger");
 const { CT_WHITELISTING } = require('../constants/constants');
