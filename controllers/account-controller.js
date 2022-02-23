@@ -77,17 +77,15 @@ exports.isWhiteListedAccount = async(req, res, next) => {
         var mwaitlist_ct=Number(temp_account.waitlist_ct);
 
         if(account) {
-            var mflag=(new Date().getTime()-new Date(account.timestamp).getTime()>CT_WHITELISTING) || account.whiteListed
+            let mflag = (new Date().getTime()-new Date(account.timestamp).getTime()>CT_WHITELISTING) || account.whiteListed
             logger.log('info','isWhitelistedAccount returns the Status from DB %s : %s', mflag, address)
 
             // Hardcoding the mflag below for testing. Should be removed.
-            let wl_account=await WL_Address.findOne({address: { $regex : new RegExp(address, "i") } })
-            console.log(wl_account);
+            let wl_account = await WL_Address.findOne({address: { $regex : new RegExp(address, "i") } })
             mflag=false;
             if(wl_account){
                mflag=true;
             }
-
             return res.status(201).json({
                 success: true,
                 isWhiteListed: mflag,
