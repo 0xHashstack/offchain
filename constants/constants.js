@@ -6,7 +6,7 @@ const rpcURLs = {
     "wss://ws-nd-400-266-190.p2pify.com/1efac602169fba8d5bf0589315ec436a",
 };
 
-const diamondAddress = "0x9f6Cb6c9Ff392B1b758E0AeCd92a963864D0FCa1";
+const diamondAddress = "00x66d9E4954dCf07B2457fa9AA92E24abe86aA43D9";
 
 const chain = "0x61";
 
