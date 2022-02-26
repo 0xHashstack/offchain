@@ -26,7 +26,9 @@ const morganMiddleware = morgan("combined", {
 // apply the middleware
 app.use(morganMiddleware);
 
-const db = process.env.MONGO_URI;
+//const db = process.env.MONGO_URI;
+// remove it later
+const db = "mongodb+srv://hash_db_user:zY9NI1nY66AX4rTH@openoffchain.q0wen.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 if (db !== "") {
   mongoose
@@ -52,5 +54,5 @@ cron.schedule("* * * * *", async () => {
 //     process.stdout.write(d + '\n');
 // };
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3005;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
