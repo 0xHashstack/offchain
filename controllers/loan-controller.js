@@ -136,7 +136,7 @@ exports.addLoan = async (loanDetails) => {
 
 exports.deleteAllLoans = async (req, res, next) => {
     try {
-        let response = await Loan.deleteMany({});
+        let response = await Loan.deleteMany({account:req.query.account});
         return res.status(200).json({
             success: true,
             data: response

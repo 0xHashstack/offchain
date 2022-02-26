@@ -174,7 +174,7 @@ const SwapLoanEvent = (libOpenContract) => {
 //emit Withdrawal(msg.sender,_market, _amount, _commitment, block.timestamp);
 const WithdrawalDepositEvent = (depositContract) => {
     //console.log("Listening to withdrawal event", depositContract); //
-    depositContract.events.Withdrawal({}, async (error, event) => {
+    depositContract.events.DepositWithdrawal({}, async (error, event) => {
         try {
             if (!error) {
                 console.log("****** withdrawal ********")
@@ -275,7 +275,8 @@ const AddCollateralEvent = (partialLoanContract) => {
 
 const collatralReleasedEvent = (partialLoanContract) => {
    // console.log("Listening to collatralReleasedEvent event", partialLoanContract); //
-    partialLoanContract.events.CollateralReleased({}, async (error, event) => {
+                               
+    partialLoanContract.events.WithdrawCollateral({}, async (error, event) => {
         try {
             if (!error) {
                 console.log("****** contractReleasedEvent ********")
