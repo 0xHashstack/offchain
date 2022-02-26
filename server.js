@@ -28,8 +28,7 @@ app.use(morganMiddleware);
 
 //const db = process.env.MONGO_URI;
 // remove it later
-const db =
-  "mongodb+srv://hash_db_user:zY9NI1nY66AX4rTH@openoffchain.q0wen.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const db = "mongodb+srv://hash_db_user:zY9NI1nY66AX4rTH@openoffchain.q0wen.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 if (db !== "") {
   mongoose
