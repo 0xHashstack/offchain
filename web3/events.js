@@ -62,7 +62,7 @@ const NewDepositEvent = (depositContract) => {
             if (!error) {
                 console.log("****** NewDepositEvent ********")
                 console.log(event.returnValues)
-                logger.log('info','NewDepositEvent Called with : %s', JSON.stringify(event))
+                logger.log('info','NewDepositEvent_str Called with : %s', JSON.stringify(event))
                 await createNewDeposit(event.returnValues)
             } else {
                 console.error(error);
@@ -82,7 +82,7 @@ const AddToDepositEvent = (depositContract) => {
             if (!error) {
                 console.log("****** AddToDepositEvent ********")
                 console.log(event.returnValues)
-                logger.log('info','AddToDepositEvent Called with : %s', JSON.stringify(event))
+                logger.log('info','AddToDepositEvent_str Called with : %s', JSON.stringify(event))
                 await addToDeposit(event.returnValues)
             } else {
                 console.error(error);
@@ -174,7 +174,7 @@ const SwapLoanEvent = (libOpenContract) => {
 //emit Withdrawal(msg.sender,_market, _amount, _commitment, block.timestamp);
 const WithdrawalDepositEvent = (depositContract) => {
     //console.log("Listening to withdrawal event", depositContract); //
-    depositContract.events.DepositWithdrawal({}, async (error, event) => {
+    depositContract.events.Withdrawal({}, async (error, event) => {
         try {
             if (!error) {
                 console.log("****** withdrawal ********")
@@ -275,8 +275,7 @@ const AddCollateralEvent = (partialLoanContract) => {
 
 const collatralReleasedEvent = (partialLoanContract) => {
    // console.log("Listening to collatralReleasedEvent event", partialLoanContract); //
-                               
-    partialLoanContract.events.WithdrawCollateral({}, async (error, event) => {
+    partialLoanContract.events.CollateralReleased({}, async (error, event) => {
         try {
             if (!error) {
                 console.log("****** contractReleasedEvent ********")

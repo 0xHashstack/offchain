@@ -89,7 +89,7 @@ exports.addToDeposit = async (updatedDepositDetails) => {
         console.log(`Added amount ${addedAmount} to deposit ${updatedDepositDetails.depositId}`);
         return depositAdded;
     } catch (error) {
-        logger.log('error','addToDeposit retuened Error : %s', JSON.stringify(error))
+        logger.log('error','addToDeposit retuened Error : %s', error)
         throw error;
     }
 }
@@ -116,9 +116,6 @@ exports.getDepositsByAccountAPI = async (req, res, next) => {
             deposit["depositId"] = deposit["depositId"];
             await this.updateAcquiredYield(deposit);
         });
-        logger.log('info','getDepositsByAccountAPI retuened Data : %s', JSON.stringify(deposits));
-
-        logger.info("Deposits")
         return res.status(200).json({
             success: true,
             data: deposits

@@ -13,7 +13,7 @@ require('dotenv').config()
 
 let app = express();
 var corsOptions = {
-  origin: ['https://testnet.hashstack.finance','http://localhost:3001','https://stagingnet.hashstack.finance'],
+  origin: ['https://testnet.hashstack.finance','http://localhost:3001'],
   optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions));
