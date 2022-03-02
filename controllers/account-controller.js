@@ -79,7 +79,7 @@ exports.isWhiteListedAccount = async(req, res, next) => {
             logger.log('info','isWhitelistedAccount returns the Status from DB %s : %s', mflag, address)
 
             //Hardcoding the mflag below for testing. Should be removed.
-            //mflag=false;
+            mflag=false;
             if(wl_account){
                mflag=true;
             }
