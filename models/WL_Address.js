@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const WL_Address_Schema = new mongoose.Schema({
+   
     address: {
         type: String,
         required: [true, 'Address field missing'],
