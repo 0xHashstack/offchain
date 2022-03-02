@@ -13,6 +13,7 @@ exports.createNewDepositAPI = async (req, res, next) => {
             data: depositAdded
         })
     } catch (error) {
+        logger.log('error','createNewDepositAPI retuened Error : %s', JSON.stringify(error))
         return res.status(500).json({
             success: false,
             error: `Error Adding deposit: ${error.message}`
@@ -29,6 +30,7 @@ exports.addToDepositAPI = async (req, res, next) => {
             data: depositAdded
         })
     } catch (error) {
+        logger.log('error','addToDepositAPI retuened Error : %s', JSON.stringify(error))
         return res.status(500).json({
             success: false,
             error: `Error adding to deposit: ${error.message}`
@@ -46,7 +48,7 @@ exports.createNewDeposit = async (depositDetails) => {
         return depositAdded;
     } catch (error) {
         console.error(error);
-        logger.log('error','createNewDeposit retuened Error : %s', error)
+        logger.log('error','createNewDeposit retuened Error : %s', JSON.stringify(error))
         if (error.name === 'ValidationError') {
             const messages = Object.values(error.errors).map(val => val.message);
             throw new Error(messages)
@@ -89,7 +91,7 @@ exports.addToDeposit = async (updatedDepositDetails) => {
         console.log(`Added amount ${addedAmount} to deposit ${updatedDepositDetails.depositId}`);
         return depositAdded;
     } catch (error) {
-        logger.log('error','addToDeposit retuened Error : %s', error)
+        logger.log('error','addToDeposit retuened Error : %s', JSON.stringify(error))
         throw error;
     }
 }
