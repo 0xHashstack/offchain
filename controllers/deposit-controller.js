@@ -66,6 +66,7 @@ exports.addToDeposit = async (updatedDepositDetails) => {
             account:updatedDepositDetails.account
         });
         if(!deposit) {
+            this.createNewDeposit(updatedDepositDetails)
             console.warn("No existing deposit found!");
             return;
         }
