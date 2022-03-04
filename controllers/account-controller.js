@@ -7,14 +7,15 @@ const { CT_WHITELISTING } = require('../constants/constants');
 exports.addAccountAPI = async (req, res, next) => {
     try {
         var { address, whiteListed } = req.body;
-        let temp_account= await Accounts.findOne().sort({waitlist_ct:-1}).limit(1);
-        var mwaitlist_ct=Number(temp_account.waitlist_ct);
-        mwaitlist_ct=mwaitlist_ct+1;
+        //let temp_account= await Accounts.findOne().sort({waitlist_ct:-1}).limit(1);
+        //var mwaitlist_ct=Number(temp_account.waitlist_ct);
+        //mwaitlist_ct=mwaitlist_ct+1;
         let accountDetails = {
             address:address,
             whiteListed:false,
             timestamp: new Date().getTime(),
-            waitlist_ct: mwaitlist_ct
+            //waitlist_ct: mwaitlist_ct
+            whitelist_Requested: true
         }
         const account = await Accounts.create(accountDetails);
         return res.status(201).json({
@@ -69,14 +70,15 @@ exports.whiteListAccount = async (req, res, next) => {
 exports.isWhiteListedAccount = async(req, res, next) => {
     try {
         const address = req.query.address;
-        let temp_account= await Accounts.findOne().sort({waitlist_ct:-1}).limit(1);
-        var mwaitlist_ct=Number(temp_account.waitlist_ct);
+        //let temp_account= await Accounts.findOne().sort({waitlist_ct:-1}).limit(1);
+        //var mwaitlist_ct=Number(temp_account.waitlist_ct);
         let account = await Accounts.findOne({address: { $regex : new RegExp(address, "i") } });
         if(account) {
             let wl_account=await WL_Address.findOne({address: { $regex : new RegExp(address, "i") } })
             console.log(wl_account);
             var mflag=(new Date().getTime()-new Date(account.timestamp).getTime()>CT_WHITELISTING) || account.whiteListed
             logger.log('info','isWhitelistedAccount returns the Status from DB %s : %s', mflag, address)
+            const whitelist_Requested = account.whitelist_Requested
 
             //Hardcoding the mflag below for testing. Should be removed.
             mflag=false;
@@ -86,7 +88,8 @@ exports.isWhiteListedAccount = async(req, res, next) => {
             return res.status(201).json({
                 success: true,
                 isWhiteListed: mflag,
-                waitlist_ct: mwaitlist_ct
+                //waitlist_ct: mwaitlist_ct,
+                whitelist_Requested
             })
         }
         logger.log('info','isWhitelistedAccount returns False Not Found in DB: %s', address)
