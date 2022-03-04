@@ -14,9 +14,13 @@ const AccountSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
+    whitelist_Requested:{
+        type: Boolean,
+        required: true
+    },
     waitlist_ct:{
         type: Number,
-        required:true
+        required: false
     }
 
 });
