@@ -17,7 +17,7 @@ exports.addAccountAPI = async (req, res, next) => {
             address:address,
             whiteListed:false,
             timestamp: timestamp,
-            waitlist_ct: mwaitlist_ct,
+            waitlist_ct: mwaitlist_ct + 1,
             whitelist_Requested: true
         }
         const account = await Accounts.create(accountDetails);
