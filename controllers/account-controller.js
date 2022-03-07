@@ -9,7 +9,7 @@ exports.addAccountAPI = async (req, res, next) => {
         var { address, whiteListed } = req.body;
         
         const timestamp =  new Date().getTime()
-        let mwaitlist_ct = await Accounts.find({whiteListed:true, "timestamp" : {
+        let mwaitlist_ct = await Accounts.find({whiteListed:false, "timestamp" : {
             $lte : timestamp
         }}).count();
         
