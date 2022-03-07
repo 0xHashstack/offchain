@@ -20,7 +20,7 @@ const AccountSchema = new mongoose.Schema({
     },
     waitlist_ct:{
         type: Number,
-        required: false
+        required: true
     }
 
 });
